@@ -1,5 +1,5 @@
 ![Eclipse Kapua™ logo](docs/user-manual/en/images/kapua-logo.png)
-
+ddddd
 # Eclipse Kapua&trade;
 
 [![Build Status](https://travis-ci.org/eclipse/kapua.svg?branch=develop)](https://travis-ci.org/eclipse/kapua/branches)
