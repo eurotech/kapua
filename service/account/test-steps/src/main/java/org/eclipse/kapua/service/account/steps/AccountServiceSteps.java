@@ -76,6 +76,13 @@ public class AccountServiceSteps extends TestBase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceSteps.class);
 
+    private static final String ACCOUNT_CREATOR = "AccountCreator";
+    private static final String LAST_ACCOUNT = "LastAccount";
+    private static final String LAST_ACCOUNT_ID = "LastAccountId";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String TMP_ACC = "tmp_acc_";
+    private static final String INT_VALUE = "IntValue";
+
     // Account creator object used for creating new accounts.
     private AccountService accountService;
     private AccountFactory accountFactory;
@@ -141,7 +148,7 @@ public class AccountServiceSteps extends TestBase {
     public void prepareTestAccountCreatorWithName(String name) {
 
         AccountCreator accountCreator = prepareRegularAccountCreator(SYS_SCOPE_ID, name);
-        stepData.put("AccountCreator", accountCreator);
+        stepData.put(ACCOUNT_CREATOR, accountCreator);
     }
 
     @Given("^Account$")
@@ -150,13 +157,13 @@ public class AccountServiceSteps extends TestBase {
         CucAccount cucAccount = accountList.get(0);
         // If accountId is not set in account list, use last created Account for scope id
         if (cucAccount.getScopeId() == null) {
-            cucAccount.setScopeId(((Account) stepData.get("LastAccount")).getId().getId());
+            cucAccount.setScopeId(((Account) stepData.get(LAST_ACCOUNT)).getId().getId());
         }
 
         Account tmpAccount = createAccount(cucAccount);
-        stepData.put("LastAccount", tmpAccount);
+        stepData.put(LAST_ACCOUNT, tmpAccount);
         if (tmpAccount != null) {
-            stepData.put("LastAccountId", tmpAccount.getId());
+            stepData.put(LAST_ACCOUNT_ID, tmpAccount.getId());
         }
     }
 
@@ -165,14 +172,14 @@ public class AccountServiceSteps extends TestBase {
             throws Exception {
 
         AccountCreator accountCreator = prepareRegularAccountCreator(SYS_SCOPE_ID, name);
-        stepData.put("AccountCreator", accountCreator);
-        stepData.remove("LastAccount");
-        stepData.remove("LastAccountId");
+        stepData.put(ACCOUNT_CREATOR, accountCreator);
+        stepData.remove(LAST_ACCOUNT);
+        stepData.remove(LAST_ACCOUNT_ID);
         try {
             primeException();
             Account account = accountService.create(accountCreator);
-            stepData.put("LastAccount", account);
-            stepData.put("LastAccountId", account.getId());
+            stepData.put(LAST_ACCOUNT, account);
+            stepData.put(LAST_ACCOUNT_ID, account.getId());
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -184,13 +191,13 @@ public class AccountServiceSteps extends TestBase {
 
         AccountCreator accountCreator = prepareRegularAccountCreator(getCurrentScopeId(), name);
         stepData.put("AccountCreator", accountCreator);
-        stepData.remove("LastAccount");
-        stepData.remove("LastAccountId");
+        stepData.remove(LAST_ACCOUNT);
+        stepData.remove(LAST_ACCOUNT_ID);
         try {
             primeException();
             Account account = accountService.create(accountCreator);
-            stepData.put("LastAccount", account);
-            stepData.put("LastAccountId", account.getId());
+            stepData.put(LAST_ACCOUNT, account);
+            stepData.put(LAST_ACCOUNT_ID, account.getId());
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -200,17 +207,17 @@ public class AccountServiceSteps extends TestBase {
     public void createTestAccountWithName(String expirationDateStr, String name)
             throws Exception {
 
-        Date expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDateStr);
+        Date expirationDate = new SimpleDateFormat(DATE_FORMAT).parse(expirationDateStr);
         AccountCreator accountCreator = prepareRegularAccountCreator(SYS_SCOPE_ID, name);
         accountCreator.setExpirationDate(expirationDate);
-        stepData.put("AccountCreator", accountCreator);
-        stepData.remove("LastAccount");
-        stepData.remove("LastAccountId");
+        stepData.put(ACCOUNT_CREATOR, accountCreator);
+        stepData.remove(LAST_ACCOUNT);
+        stepData.remove(LAST_ACCOUNT_ID);
         try {
             primeException();
             Account account = accountService.create(accountCreator);
-            stepData.put("LastAccount", account);
-            stepData.put("LastAccountId", account.getId());
+            stepData.put(LAST_ACCOUNT, account);
+            stepData.put(LAST_ACCOUNT_ID, account.getId());
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -221,7 +228,7 @@ public class AccountServiceSteps extends TestBase {
             throws Exception {
 
         for (int i = 0; i < num; i++) {
-            AccountCreator accountCreator = prepareRegularAccountCreator(new KapuaEid(BigInteger.valueOf(parentId)), "tmp_acc_" + String.format("%d", i));
+            AccountCreator accountCreator = prepareRegularAccountCreator(new KapuaEid(BigInteger.valueOf(parentId)), TMP_ACC + String.format("%d", i));
             try {
                 primeException();
                 accountService.create(accountCreator);
@@ -238,7 +245,7 @@ public class AccountServiceSteps extends TestBase {
 
         Account tmpAcc = accountService.findByName(name);
         for (int i = 0; i < num; i++) {
-            AccountCreator accountCreator = prepareRegularAccountCreator(tmpAcc.getId(), "tmp_acc_" + String.format("%d", i));
+            AccountCreator accountCreator = prepareRegularAccountCreator(tmpAcc.getId(), TMP_ACC + String.format("%d", i));
             try {
                 primeException();
                 accountService.create(accountCreator);
@@ -255,8 +262,8 @@ public class AccountServiceSteps extends TestBase {
 
         Account tmpAcc = accountService.findByName(name);
         for (int i = 0; i < num; i++) {
-            Date expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDateStr);
-            AccountCreator accountCreator = prepareRegularAccountCreator(tmpAcc.getId(), "tmp_acc_" + String.format("%d", i));
+            Date expirationDate = new SimpleDateFormat(DATE_FORMAT).parse(expirationDateStr);
+            AccountCreator accountCreator = prepareRegularAccountCreator(tmpAcc.getId(), TMP_ACC + String.format("%d", i));
             accountCreator.setExpirationDate(expirationDate);
             try {
                 primeException();
@@ -274,7 +281,7 @@ public class AccountServiceSteps extends TestBase {
             throws Exception {
 
         for (int i = 0; i < num; i++) {
-            AccountCreator accountCreator = prepareRegularAccountCreator(SYS_SCOPE_ID, "tmp_acc_" + String.format("%d", i));
+            AccountCreator accountCreator = prepareRegularAccountCreator(SYS_SCOPE_ID, TMP_ACC + String.format("%d", i));
             accountCreator.setOrganizationName(name);
             try {
                 primeException();
@@ -313,7 +320,7 @@ public class AccountServiceSteps extends TestBase {
             tmpOrg.setName(tmpOrg.getName() + "_xx");
             tmpOrg.setCity(tmpOrg.getCity() + "_xx");
             account.setOrganization(tmpOrg);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
 
             accountService.update(account);
         } catch (KapuaException ex) {
@@ -325,7 +332,7 @@ public class AccountServiceSteps extends TestBase {
     public void updateAccount()
             throws Exception {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
 
         try {
             primeException();
@@ -407,10 +414,10 @@ public class AccountServiceSteps extends TestBase {
             Account tmpAccount;
             tmpAccount = accountService.findByName(accountName);
             if (tmpAccount != null) {
-                stepData.put("LastAccount", tmpAccount);
-                stepData.put("LastAccountId", tmpAccount.getId());
+                stepData.put(LAST_ACCOUNT, tmpAccount);
+                stepData.put(LAST_ACCOUNT_ID, tmpAccount.getId());
             } else {
-                stepData.remove("LastAccount");
+                stepData.remove(LAST_ACCOUNT);
             }
         } catch (KapuaException e) {
             verifyException(e);
@@ -420,14 +427,14 @@ public class AccountServiceSteps extends TestBase {
     @When("I change the current account expiration date to \"(.+)\"")
     public void changeCurrentAccountExpirationDate(String newExpiration) throws Exception {
 
-        Account currAcc = (Account) stepData.get("LastAccount");
+        Account currAcc = (Account) stepData.get(LAST_ACCOUNT);
         Date newDate = parseDateString(newExpiration);
 
         try {
             primeException();
             currAcc.setExpirationDate(newDate);
             Account tmpAcc = accountService.update(currAcc);
-            stepData.put("LastAccount", tmpAcc);
+            stepData.put(LAST_ACCOUNT, tmpAcc);
         } catch (KapuaException e) {
             verifyException(e);
         }
@@ -482,9 +489,9 @@ public class AccountServiceSteps extends TestBase {
 
         try {
             primeException();
-            stepData.remove("LastAccount");
+            stepData.remove(LAST_ACCOUNT);
             Account account = accountService.findByName(name);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -496,10 +503,10 @@ public class AccountServiceSteps extends TestBase {
 
         try {
             primeException();
-            stepData.remove("LastAccount");
-            KapuaId accountId = (KapuaId) stepData.get("LastAccountId");
+            stepData.remove(LAST_ACCOUNT);
+            KapuaId accountId = (KapuaId) stepData.get(LAST_ACCOUNT_ID);
             Account account = accountService.find(accountId);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -511,10 +518,10 @@ public class AccountServiceSteps extends TestBase {
 
         try {
             primeException();
-            stepData.remove("LastAccount");
-            KapuaId accountId = (KapuaId) stepData.get("LastAccountId");
+            stepData.remove(LAST_ACCOUNT);
+            KapuaId accountId = (KapuaId) stepData.get(LAST_ACCOUNT_ID);
             Account account = accountService.find(SYS_SCOPE_ID, accountId);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -526,9 +533,9 @@ public class AccountServiceSteps extends TestBase {
 
         try {
             primeException();
-            stepData.remove("LastAccount");
+            stepData.remove(LAST_ACCOUNT);
             Account account = accountService.find(SYS_SCOPE_ID, new KapuaEid(IdGenerator.generate()));
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -538,7 +545,7 @@ public class AccountServiceSteps extends TestBase {
     public void setAccountParameters(List<StringTuple> paramList)
             throws Exception {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Properties accProps = account.getEntityProperties();
 
         for (StringTuple param : paramList) {
@@ -549,7 +556,7 @@ public class AccountServiceSteps extends TestBase {
         try {
             primeException();
             account = accountService.update(account);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -573,7 +580,7 @@ public class AccountServiceSteps extends TestBase {
         }
         valueMap.put("infiniteChildEntities", true);
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
 
         try {
             primeException();
@@ -587,7 +594,7 @@ public class AccountServiceSteps extends TestBase {
     public void addUnknownIntegerConfigurationValue(String name, int value)
             throws Exception {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         try {
             primeException();
             Map<String, Object> valuesRead = accountService.getConfigValues(account.getId());
@@ -603,11 +610,11 @@ public class AccountServiceSteps extends TestBase {
             throws Exception {
 
         AccountQuery query = accountFactory.newQuery(SYS_SCOPE_ID);
-        stepData.remove("IntValue");
+        stepData.remove(INT_VALUE);
         try {
             primeException();
             AccountListResult accList = accountService.query(query);
-            stepData.put("IntValue", accList.getSize());
+            stepData.put(INT_VALUE, accList.getSize());
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -617,14 +624,14 @@ public class AccountServiceSteps extends TestBase {
     public void setExpirationDate(String expirationDateStr)
             throws Exception {
 
-        Account account = (Account) stepData.get("LastAccount");
-        stepData.remove("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
+        stepData.remove(LAST_ACCOUNT);
         try {
             primeException();
-            Date expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(expirationDateStr);
+            Date expirationDate = new SimpleDateFormat(DATE_FORMAT).parse(expirationDateStr);
             account.setExpirationDate(expirationDate);
             account = accountService.update(account);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException|ParseException ex) {
             verifyException(ex);
         }
@@ -633,8 +640,8 @@ public class AccountServiceSteps extends TestBase {
     @Then("^The account matches the creator settings$")
     public void checkCreatedAccountDefaults() {
 
-        Account account = (Account) stepData.get("LastAccount");
-        AccountCreator accountCreator = (AccountCreator) stepData.get("AccountCreator");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
+        AccountCreator accountCreator = (AccountCreator) stepData.get(ACCOUNT_CREATOR);
 
         assertNotNull(account);
         assertNotNull(account.getId());
@@ -671,7 +678,7 @@ public class AccountServiceSteps extends TestBase {
     public void checkForAccountModifications(String name)
             throws KapuaException {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Account tmpAcc = accountService.findByName(name);
 
         assertEquals(account.getOrganization().getName(), tmpAcc.getOrganization().getName());
@@ -709,7 +716,7 @@ public class AccountServiceSteps extends TestBase {
     @Then("^The account does not exist$")
     public void tryToFindInexistentAccount() {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
 
         assertNull(account);
     }
@@ -728,7 +735,7 @@ public class AccountServiceSteps extends TestBase {
     public void checkAccountParameters(List<StringTuple> paramList)
             throws KapuaException {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Properties accProps = account.getEntityProperties();
 
         for (StringTuple param : paramList) {
@@ -740,7 +747,7 @@ public class AccountServiceSteps extends TestBase {
     public void checkMetadataExistence()
             throws KapuaException {
 
-        KapuaId accountId = (KapuaId) stepData.get("LastAccountId");
+        KapuaId accountId = (KapuaId) stepData.get(LAST_ACCOUNT_ID);
         KapuaTocd metaData = accountService.getConfigMetadata(accountId);
 
         assertNotNull(metaData);
@@ -750,7 +757,7 @@ public class AccountServiceSteps extends TestBase {
     public void checkDefaultAccountConfiguration()
             throws KapuaException {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Map<String, Object> valuesRead = accountService.getConfigValues(account.getId());
 
         assertTrue(valuesRead.containsKey("maxNumberChildEntities"));
@@ -761,7 +768,7 @@ public class AccountServiceSteps extends TestBase {
     public void checkConfigValue(String name, String value)
             throws KapuaException {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Map<String, Object> valuesRead = accountService.getConfigValues(account.getId());
 
         assertTrue(valuesRead.containsKey(name));
@@ -772,7 +779,7 @@ public class AccountServiceSteps extends TestBase {
     public void checkMissingConfigItem(String name)
             throws KapuaException {
 
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Map<String, Object> valuesRead = accountService.getConfigValues(account.getId());
 
         assertFalse(valuesRead.containsKey(name));
@@ -781,7 +788,7 @@ public class AccountServiceSteps extends TestBase {
     @Then("^The returned value is (\\d+)$")
     public void checkIntegerReturnValue(int val) {
 
-        int intVal = (int) stepData.get("IntValue");
+        int intVal = (int) stepData.get(INT_VALUE);
 
         assertEquals(val, intVal);
     }
@@ -800,7 +807,7 @@ public class AccountServiceSteps extends TestBase {
 
         primeException();
         try {
-            Account tmpAccount = (Account) stepData.get("LastAccount");
+            Account tmpAccount = (Account) stepData.get(LAST_ACCOUNT);
             if (tmpAccount != null) {
                 accId = tmpAccount.getId();
                 scopeId = SYS_SCOPE_ID;
@@ -899,7 +906,7 @@ public class AccountServiceSteps extends TestBase {
 
     @And("^I try to edit description to \"([^\"]*)\"$")
     public void iTryToEditAccountWithName(String description) throws Exception {
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         account.setDescription(description);
 
         try {
@@ -919,11 +926,11 @@ public class AccountServiceSteps extends TestBase {
 
         try {
             primeException();
-            stepData.remove("LastAccount");
-            stepData.remove("LastAccount");
+            stepData.remove(LAST_ACCOUNT);
+            stepData.remove(LAST_ACCOUNT);
             Account account = accountService.create(accountCreator);
-            stepData.put("LastAccount", account);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }
@@ -931,33 +938,33 @@ public class AccountServiceSteps extends TestBase {
 
     @When("^I look for my account by id$")
     public void findMyAccountById() throws Exception {
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Account selfAccount = accountService.find(account.getId());
-        stepData.put("LastAccount",selfAccount);
+        stepData.put(LAST_ACCOUNT,selfAccount);
     }
 
     @When("^I look for my account by id and scope id$")
     public void findMyAccountByIdAndScopeId() throws Exception {
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Account selfAccount = accountService.find(account.getId(), account.getScopeId());
-        stepData.put("LastAccount",selfAccount);
+        stepData.put(LAST_ACCOUNT,selfAccount);
     }
 
     @When("^I look for my account by name$")
     public void findMyAccountByName() throws Exception {
-        Account account = (Account) stepData.get("LastAccount");
+        Account account = (Account) stepData.get(LAST_ACCOUNT);
         Account selfAccount = accountService.findByName(account.getName());
-        stepData.put("LastAccount",selfAccount);
+        stepData.put(LAST_ACCOUNT,selfAccount);
     }
 
     @Then("^I am able to read my account info")
     public void verifySelfAccount() throws Exception {
-        assertNotNull(stepData.get("LastAccount"));
+        assertNotNull(stepData.get(LAST_ACCOUNT));
     }
 
     @And("^I create an account with name \"([^\"]*)\", organization name \"([^\"]*)\" and email adress \"([^\"]*)\" and child account$")
     public void iCreateAccountWithNameOrganizationNameAndEmailAdressAndChildAccount(String accountName, String organizationName, String email) throws Exception {
-        Account lastAccount = (Account) stepData.get("LastAccount");
+        Account lastAccount = (Account) stepData.get(LAST_ACCOUNT);
 
         AccountCreator accountCreator = accountFactory.newCreator(lastAccount.getId());
         accountCreator.setName(accountName);
@@ -966,9 +973,9 @@ public class AccountServiceSteps extends TestBase {
 
         try {
             primeException();
-            stepData.remove("LastAccount");
+            stepData.remove(LAST_ACCOUNT);
             Account account = accountService.create(accountCreator);
-            stepData.put("LastAccount", account);
+            stepData.put(LAST_ACCOUNT, account);
         } catch (KapuaException ex) {
             verifyException(ex);
         }

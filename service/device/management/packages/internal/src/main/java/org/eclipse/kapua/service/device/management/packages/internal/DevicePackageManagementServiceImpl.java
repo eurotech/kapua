@@ -78,6 +78,9 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
 
     private static final PackageManagementServiceSetting PACKAGE_MANAGEMENT_SERVICE_SETTING = PackageManagementServiceSetting.getInstance();
 
+    private static final String SCOPE_ID = "scopeId";
+    private static final String DEVICE_ID = "deviceId";
+
     //
     // Installed
     //
@@ -86,8 +89,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public DevicePackages getInstalled(KapuaId scopeId, KapuaId deviceId, Long timeout) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
 
         //
         // Check Access
@@ -170,8 +173,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public KapuaId downloadExec(KapuaId scopeId, KapuaId deviceId, DevicePackageDownloadRequest packageDownloadRequest, DevicePackageDownloadOptions packageDownloadOptions) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
         ArgumentValidator.notNull(packageDownloadRequest, "packageDownloadRequest");
         ArgumentValidator.notNull(packageDownloadRequest.getUri(), "packageDownloadRequest.uri");
         ArgumentValidator.notNull(packageDownloadRequest.getName(), "packageDownloadRequest.name");
@@ -260,8 +263,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public DevicePackageDownloadOperation downloadStatus(KapuaId scopeId, KapuaId deviceId, Long timeout) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
 
         //
         // Check Access
@@ -316,8 +319,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public void downloadStop(KapuaId scopeId, KapuaId deviceId, Long timeout) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
 
         //
         // Check Access
@@ -374,8 +377,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public KapuaId installExec(KapuaId scopeId, KapuaId deviceId, DevicePackageInstallRequest deployInstallRequest, DevicePackageInstallOptions packageInstallOptions) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
         ArgumentValidator.notNull(deployInstallRequest, "deployInstallRequest");
         ArgumentValidator.notNull(packageInstallOptions, "packageInstallOptions");
 
@@ -445,8 +448,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public DevicePackageInstallOperation installStatus(KapuaId scopeId, KapuaId deviceId, Long timeout) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
 
         //
         // Check Access
@@ -526,8 +529,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public KapuaId uninstallExec(KapuaId scopeId, KapuaId deviceId, DevicePackageUninstallRequest packageUninstallRequest, DevicePackageUninstallOptions packageUninstallOptions) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
         ArgumentValidator.notNull(packageUninstallRequest, "packageUninstallRequest");
         ArgumentValidator.notNull(packageUninstallOptions, "packageUninstallOptions");
 
@@ -597,8 +600,8 @@ public class DevicePackageManagementServiceImpl extends AbstractDeviceManagement
     public DevicePackageUninstallOperation uninstallStatus(KapuaId scopeId, KapuaId deviceId, Long timeout) throws KapuaException {
         //
         // Argument Validation
-        ArgumentValidator.notNull(scopeId, "scopeId");
-        ArgumentValidator.notNull(deviceId, "deviceId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
+        ArgumentValidator.notNull(deviceId, DEVICE_ID);
 
         //
         // Check Access

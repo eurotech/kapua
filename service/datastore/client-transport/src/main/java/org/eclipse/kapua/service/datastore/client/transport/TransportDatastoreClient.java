@@ -94,6 +94,8 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
     private static final String CLIENT_QUERY_PARSING_ERROR_MSG = "Cannot parse query!";
     private static final String CLIENT_CANNOT_DELETE_INDEX_ERROR_MSG = "Cannot delete indexes!";
     private static final String CLIENT_CANNOT_REFRESH_INDEX_ERROR_MSG = "Cannot refresh indexes!";
+    private static final String CANNOT_FIND_INDEX = "Cannot find index '{}'";
+    private static final String GENERIC_SEARCH_ERROR = "Generic search error {}";
 
     private static final String INDEXES_ALL = "_all";
     private static final String DOC = "_doc";
@@ -132,7 +134,7 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
     /**
      * Default constructor
      * Initialize the client provider ({@link ClientProvider}) as singleton.
-     * 
+     *
      * @throws ClientUnavailableException
      */
     private TransportDatastoreClient() throws ClientUnavailableException {
@@ -310,9 +312,9 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
                 throw new RuntimeException("Total hits exceeds integer max value");
             }
         } catch (IndexNotFoundException infe) {
-            logger.warn("Cannot find index '{}'", typeDescriptor.getIndex());
+            logger.warn(CANNOT_FIND_INDEX, typeDescriptor.getIndex());
         } catch (SearchPhaseExecutionException spee) {
-            logger.warn("Generic search error {}", spee.getMessage(), spee);
+            logger.warn(GENERIC_SEARCH_ERROR, spee.getMessage(), spee);
         }
 
         ResultList<T> result = new ResultList<T>(totalCount);
@@ -342,9 +344,9 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
                     .actionGet(getQueryTimeout());
             searchHits = response.getHits();
         } catch (IndexNotFoundException infe) {
-            logger.warn("Cannot find index '{}'", typeDescriptor.getIndex());
+            logger.warn(CANNOT_FIND_INDEX, typeDescriptor.getIndex());
         } catch (SearchPhaseExecutionException spee) {
-            logger.warn("Generic search error {}", spee.getMessage(), spee);
+            logger.warn(GENERIC_SEARCH_ERROR, spee.getMessage(), spee);
         }
         if (searchHits == null) {
             return 0;
@@ -364,7 +366,7 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
         } catch (InvalidIndexNameException iine) {
             logger.warn("Index '{}' not valid", typeDescriptor.getIndex(), iine);
         } catch (IndexNotFoundException infe) {
-            logger.warn("Cannot find index '{}'", typeDescriptor.getIndex(), infe);
+            logger.warn(CANNOT_FIND_INDEX, typeDescriptor.getIndex(), infe);
         }
     }
 
@@ -387,9 +389,9 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
                     .setSource(toSearchSourceBuilder(queryMap))
                     .get(queryTimeout);
         } catch (IndexNotFoundException infe) {
-            logger.warn("Cannot find index '{}'", typeDescriptor.getIndex());
+            logger.warn(CANNOT_FIND_INDEX, typeDescriptor.getIndex());
         } catch (SearchPhaseExecutionException spee) {
-            logger.warn("Generic search error {}", spee.getMessage(), spee);
+            logger.warn(GENERIC_SEARCH_ERROR, spee.getMessage(), spee);
         }
 
         if (scrollResponse != null) {
@@ -574,7 +576,7 @@ public class TransportDatastoreClient implements org.eclipse.kapua.service.datas
 
     /**
      * Get the scroll timeout (default value)
-     * 
+     *
      * @return
      */
     public TimeValue getScrollTimeout() {

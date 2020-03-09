@@ -72,6 +72,9 @@ public class ClientInfoRegistryServiceImpl extends AbstractKapuaService implemen
     private final MessageStoreService messageStoreService;
     private final StorablePredicateFactory storablePredicateFactory;
 
+    private static final String QUERY = "query";
+    private static final String QUERY_SCOPE_ID = "query.scopeId";
+
     /**
      * Default constructor
      *
@@ -115,8 +118,8 @@ public class ClientInfoRegistryServiceImpl extends AbstractKapuaService implemen
     @Override
     public ClientInfoListResult query(ClientInfoQuery query)
             throws KapuaException {
-        ArgumentValidator.notNull(query, "query");
-        ArgumentValidator.notNull(query.getScopeId(), "query.scopeId");
+        ArgumentValidator.notNull(query, QUERY);
+        ArgumentValidator.notNull(query.getScopeId(), QUERY_SCOPE_ID);
 
         checkAccess(query.getScopeId(), Actions.read);
         try {
@@ -136,8 +139,8 @@ public class ClientInfoRegistryServiceImpl extends AbstractKapuaService implemen
     @Override
     public long count(ClientInfoQuery query)
             throws KapuaException {
-        ArgumentValidator.notNull(query, "query");
-        ArgumentValidator.notNull(query.getScopeId(), "query.scopeId");
+        ArgumentValidator.notNull(query, QUERY);
+        ArgumentValidator.notNull(query.getScopeId(), QUERY_SCOPE_ID);
 
         checkAccess(query.getScopeId(), Actions.read);
         try {
@@ -149,8 +152,8 @@ public class ClientInfoRegistryServiceImpl extends AbstractKapuaService implemen
 
     void delete(ClientInfoQuery query)
             throws KapuaException {
-        ArgumentValidator.notNull(query, "query");
-        ArgumentValidator.notNull(query.getScopeId(), "query.scopeId");
+        ArgumentValidator.notNull(query, QUERY);
+        ArgumentValidator.notNull(query.getScopeId(), QUERY_SCOPE_ID);
 
         checkAccess(query.getScopeId(), Actions.delete);
         try {

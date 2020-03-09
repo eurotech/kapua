@@ -72,6 +72,9 @@ public class ChannelInfoRegistryServiceImpl extends AbstractKapuaService impleme
     private final MessageStoreService messageStoreService;
     private final StorablePredicateFactory storablePredicateFactory;
 
+    private static final String QUERY = "query";
+    private static final String QUERY_SCOPE_ID = "query.scopeId";
+
     /**
      * Default constructor
      *
@@ -115,8 +118,8 @@ public class ChannelInfoRegistryServiceImpl extends AbstractKapuaService impleme
     @Override
     public ChannelInfoListResult query(ChannelInfoQuery query)
             throws KapuaException {
-        ArgumentValidator.notNull(query, "query");
-        ArgumentValidator.notNull(query.getScopeId(), "query.scopeId");
+        ArgumentValidator.notNull(query, QUERY);
+        ArgumentValidator.notNull(query.getScopeId(), QUERY_SCOPE_ID);
 
         checkDataAccess(query.getScopeId(), Actions.read);
         try {
@@ -136,8 +139,8 @@ public class ChannelInfoRegistryServiceImpl extends AbstractKapuaService impleme
     @Override
     public long count(ChannelInfoQuery query)
             throws KapuaException {
-        ArgumentValidator.notNull(query, "query");
-        ArgumentValidator.notNull(query.getScopeId(), "query.scopeId");
+        ArgumentValidator.notNull(query, QUERY);
+        ArgumentValidator.notNull(query.getScopeId(), QUERY_SCOPE_ID);
 
         checkDataAccess(query.getScopeId(), Actions.read);
         try {
@@ -162,8 +165,8 @@ public class ChannelInfoRegistryServiceImpl extends AbstractKapuaService impleme
 
     void delete(ChannelInfoQuery query)
             throws KapuaException {
-        ArgumentValidator.notNull(query, "query");
-        ArgumentValidator.notNull(query.getScopeId(), "query.scopeId");
+        ArgumentValidator.notNull(query, QUERY);
+        ArgumentValidator.notNull(query.getScopeId(), QUERY_SCOPE_ID);
 
         checkDataAccess(query.getScopeId(), Actions.delete);
         try {

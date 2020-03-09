@@ -69,14 +69,14 @@ public enum PackageMetrics {
      *
      * @since 1.0.0
      */
-    APP_METRIC_PACKAGE_DOWNLOAD_PACKAGE_NAME("dp.name"),
+    APP_METRIC_PACKAGE_DOWNLOAD_PACKAGE_NAME(Constants.DP_NAME),
 
     /**
      * Download package version
      *
      * @since 1.0.0
      */
-    APP_METRIC_PACKAGE_DOWNLOAD_PACKAGE_VERSION("dp.version"),
+    APP_METRIC_PACKAGE_DOWNLOAD_PACKAGE_VERSION(Constants.DP_VERSION),
 
     /**
      * @since 1.1.0
@@ -164,13 +164,13 @@ public enum PackageMetrics {
      *
      * @since 1.0.0
      */
-    APP_METRIC_PACKAGE_INSTALL_PACKAGE_NAME("dp.name"),
+    APP_METRIC_PACKAGE_INSTALL_PACKAGE_NAME(Constants.DP_NAME),
     /**
      * Install package version
      *
      * @since 1.0.0
      */
-    APP_METRIC_PACKAGE_INSTALL_PACKAGE_VERSION("dp.version"),
+    APP_METRIC_PACKAGE_INSTALL_PACKAGE_VERSION(Constants.DP_VERSION),
     /**
      * Install system update package
      *
@@ -184,13 +184,13 @@ public enum PackageMetrics {
      *
      * @since 1.0.0
      */
-    APP_METRIC_PACKAGE_UNINSTALL_PACKAGE_NAME("dp.name"),
+    APP_METRIC_PACKAGE_UNINSTALL_PACKAGE_NAME(Constants.DP_NAME),
     /**
      * Uninstall package version
      *
      * @since 1.0.0
      */
-    APP_METRIC_PACKAGE_UNINSTALL_PACKAGE_VERSION("dp.version"),
+    APP_METRIC_PACKAGE_UNINSTALL_PACKAGE_VERSION(Constants.DP_VERSION),
 
     ;
 
@@ -215,4 +215,10 @@ public enum PackageMetrics {
     public String getValue() {
         return value;
     }
+
+    protected static class Constants {
+        protected static final String DP_NAME = "dp.name";
+        protected static final String DP_VERSION = "dp.version";
+    }
+
 }

@@ -114,6 +114,7 @@ public class SLF4JLogger extends AbstractSessionLog {
     /** Loggers lookup array. */
     private static final Logger[] categoryLoggers = new Logger[LogCategory.length];
 
+    private static final String UNKOWN_CATEGORY_ERROR = "Unknown logging category name.";
     static {
         // Initialize loggers lookup array.
         for (int i = 0; i < LogCategory.length; i++) {
@@ -138,7 +139,9 @@ public class SLF4JLogger extends AbstractSessionLog {
         if (logger != null) {
             return logger;
         }
-        return categoryLoggers[category.getId()] = LoggerFactory.getLogger(category.getNameSpace());
+        byte categoryId = category.getId();
+        categoryLoggers[categoryId] = LoggerFactory.getLogger(category.getNameSpace());
+        return categoryLoggers[categoryId];
     }
 
     /** Logging levels for individual logging categories. */
@@ -154,11 +157,9 @@ public class SLF4JLogger extends AbstractSessionLog {
         logLevels = new LogLevel[LogCategory.length];
         for (LogCategory category : LogCategory.values()) {
             final int i = category.getId();
-            switch(category) {
-            case ALL:
+            if (category == LogCategory.ALL) {
                 logLevels[i] = LogLevel.toValue(defaultLevel);
-                break;
-            default:
+            } else {
                 final String property = PersistenceUnitProperties.CATEGORY_LOGGING_LEVEL_ + category.getName();
                 final String logLevelStr = PrivilegedAccessHelper.shouldUsePrivilegedAccess()
                         ? AccessController.doPrivileged(new PrivilegedGetSystemProperty(property))
@@ -187,7 +188,7 @@ public class SLF4JLogger extends AbstractSessionLog {
     public int getLevel(final String categoryName) {
         final LogCategory category = LogCategory.toValue(categoryName);
         if (category == null) {
-            throw new IllegalArgumentException("Unknown logging category name.");
+            throw new IllegalArgumentException();
         }
         return logLevels[category.getId()].getId();
     }
@@ -212,7 +213,7 @@ public class SLF4JLogger extends AbstractSessionLog {
     public void setLevel(final int level, final String categoryName) {
         final LogCategory category = LogCategory.toValue(categoryName);
         if (category == null) {
-            throw new IllegalArgumentException("Unknown logging category name.");
+            throw new IllegalArgumentException(UNKOWN_CATEGORY_ERROR);
         }
         logLevels[category.getId()] = LogLevel.toValue(level);
         // TODO: Handle logging levels on SLF4J side too.
@@ -240,7 +241,7 @@ public class SLF4JLogger extends AbstractSessionLog {
     public boolean shouldLog(final int level, final String categoryName) {
         final LogCategory category = LogCategory.toValue(categoryName);
         if (category == null) {
-            throw new IllegalArgumentException("Unknown logging category name.");
+            throw new IllegalArgumentException(UNKOWN_CATEGORY_ERROR);
         }
         return logLevels[category.getId()].shouldLog((byte)level);
     }

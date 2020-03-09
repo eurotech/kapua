@@ -113,6 +113,8 @@ public class ServiceDAO {
     private static final String ATTRIBUTE_SEPARATOR = ".";
     private static final String ATTRIBUTE_SEPARATOR_ESCAPED = "\\.";
 
+    private static final String NON_COMPARABLE_ERROR = "Trying to compare a non-comparable value";
+
     static {
         KapuaLocator locator = null;
         try {
@@ -655,7 +657,7 @@ public class ServiceDAO {
                         Expression<? extends Comparable> comparableExpression = extractAttribute(entityRoot, attrName);
                         expr = cb.greaterThan(comparableExpression, comparableAttrValue);
                     } else {
-                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, "Trying to compare a non-comparable value");
+                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, NON_COMPARABLE_ERROR );
                     }
                     break;
 
@@ -665,7 +667,7 @@ public class ServiceDAO {
                         Comparable comparableAttrValue = (Comparable<?>) attrValue;
                         expr = cb.greaterThanOrEqualTo(comparableExpression, comparableAttrValue);
                     } else {
-                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, "Trying to compare a non-comparable value");
+                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, NON_COMPARABLE_ERROR);
                     }
                     break;
 
@@ -675,7 +677,7 @@ public class ServiceDAO {
                         Comparable comparableAttrValue = (Comparable<?>) attrValue;
                         expr = cb.lessThan(comparableExpression, comparableAttrValue);
                     } else {
-                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, "Trying to compare a non-comparable value");
+                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, NON_COMPARABLE_ERROR);
                     }
                     break;
                 case LESS_THAN_OR_EQUAL:
@@ -684,7 +686,7 @@ public class ServiceDAO {
                         Comparable comparableAttrValue = (Comparable<?>) attrValue;
                         expr = cb.lessThanOrEqualTo(comparableExpression, comparableAttrValue);
                     } else {
-                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, "Trying to compare a non-comparable value");
+                        throw new KapuaException(KapuaErrorCodes.ILLEGAL_ARGUMENT, NON_COMPARABLE_ERROR);
                     }
                     break;
 

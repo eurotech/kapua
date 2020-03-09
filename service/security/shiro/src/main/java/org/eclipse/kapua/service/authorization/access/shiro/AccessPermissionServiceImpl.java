@@ -48,6 +48,8 @@ import java.util.Map;
 @KapuaProvider
 public class AccessPermissionServiceImpl extends AbstractKapuaService implements AccessPermissionService {
 
+    private static final String SCOPE_ID = "scopeId";
+
     public AccessPermissionServiceImpl() {
         super(AuthorizationEntityManagerFactory.getInstance());
     }
@@ -122,7 +124,7 @@ public class AccessPermissionServiceImpl extends AbstractKapuaService implements
 
     @Override
     public void delete(KapuaId scopeId, KapuaId accessPermissionId) throws KapuaException {
-        ArgumentValidator.notNull(scopeId, "scopeId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
         ArgumentValidator.notNull(accessPermissionId, "accessPermissionId");
 
         // Check Access
@@ -143,7 +145,7 @@ public class AccessPermissionServiceImpl extends AbstractKapuaService implements
     @Override
     public AccessPermission find(KapuaId scopeId, KapuaId accessPermissionId)
             throws KapuaException {
-        ArgumentValidator.notNull(scopeId, "scopeId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
         ArgumentValidator.notNull(accessPermissionId, "accessPermissionId");
 
         //
@@ -159,7 +161,7 @@ public class AccessPermissionServiceImpl extends AbstractKapuaService implements
     @Override
     public AccessPermissionListResult findByAccessInfoId(KapuaId scopeId, KapuaId accessInfoId)
             throws KapuaException {
-        ArgumentValidator.notNull(scopeId, "scopeId");
+        ArgumentValidator.notNull(scopeId, SCOPE_ID);
         ArgumentValidator.notNull(accessInfoId, "accessInfoId");
 
         //

@@ -21,7 +21,7 @@ import org.eclipse.kapua.service.KapuaService;
 /**
  * Abstract Kapua service.<br>
  * It handles the {@link EntityManagerFactory} and {@link EntityManagerSession} to avoid to redefine each time in the subclasses.
- * 
+ *
  * @since 1.0
  *
  */
@@ -32,7 +32,7 @@ public class AbstractKapuaService {
 
     /**
      * Constructor
-     * 
+     *
      * @param entityManagerFactory
      */
     protected AbstractKapuaService(EntityManagerFactory entityManagerFactory) {

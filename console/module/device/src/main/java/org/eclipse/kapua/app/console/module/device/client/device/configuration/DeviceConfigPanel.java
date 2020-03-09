@@ -50,6 +50,7 @@ import org.eclipse.kapua.app.console.module.api.client.messages.ConsoleMessages;
 import org.eclipse.kapua.app.console.module.api.client.ui.widget.KapuaTextArea;
 import org.eclipse.kapua.app.console.module.api.client.ui.widget.KapuaTextField;
 import org.eclipse.kapua.app.console.module.api.client.util.Constants;
+import org.eclipse.kapua.app.console.module.api.client.util.CssLiterals;
 import org.eclipse.kapua.app.console.module.api.client.util.FailureHandler;
 import org.eclipse.kapua.app.console.module.api.client.util.FormUtils;
 import org.eclipse.kapua.app.console.module.api.client.util.KapuaSafeHtmlUtils;
@@ -75,6 +76,9 @@ public class DeviceConfigPanel extends LayoutContainer {
     private ComponentPlugin infoPlugin;
     private ComponentPlugin dirtyPlugin;
     private GwtSession currentSession;
+
+    private static final String CONFIG_MIN_VALUE = "configMinValue";
+    private static final String CONFIG_MAX_VALUE = "configMaxValue";
 
     public DeviceConfigPanel(GwtConfigComponent configComponent, GwtSession currentSession) {
         super(new FitLayout());
@@ -345,7 +349,7 @@ public class DeviceConfigPanel extends LayoutContainer {
             multiField.setReadOnly(true);
             multiField.setEnabled(false);
         }
-        multiField.setLabelStyle("word-break:break-all");
+        multiField.setLabelStyle(CssLiterals.WORD_BREAK_BREAK_ALL);
         Field<?> field = null;
         String value = null;
         String[] values = param.getValues();
@@ -466,7 +470,7 @@ public class DeviceConfigPanel extends LayoutContainer {
         if (validator instanceof StringValidator && !param.getId().equals("WireGraph") && !param.getId().equals("brokerXml") && !param.getId().equals("users")) {
             field.setValidator(validator);
         }
-        field.setLabelStyle("word-break:break-all");
+        field.setLabelStyle(CssLiterals.WORD_BREAK_BREAK_ALL);
         return field;
     }
 
@@ -494,7 +498,7 @@ public class DeviceConfigPanel extends LayoutContainer {
             field.setValue((String) param.getValue());
             field.setOriginalValue((String) param.getValue());
         }
-        field.setLabelStyle("word-break:break-all");
+        field.setLabelStyle(CssLiterals.WORD_BREAK_BREAK_ALL);
         return field;
     }
 
@@ -564,7 +568,7 @@ public class DeviceConfigPanel extends LayoutContainer {
                 }
                 break;
         }
-        field.setLabelStyle("word-break:break-all");
+        field.setLabelStyle(CssLiterals.WORD_BREAK_BREAK_ALL);
         return field;
     }
 
@@ -600,7 +604,7 @@ public class DeviceConfigPanel extends LayoutContainer {
         if (param.getValue() != null) {
             field.setSimpleValue(getKeyFromValue(oMap, param.getValue()));
         }
-        field.setLabelStyle("word-break:break-all");
+        field.setLabelStyle(CssLiterals.WORD_BREAK_BREAK_ALL);
         return field;
     }
 
@@ -648,7 +652,7 @@ public class DeviceConfigPanel extends LayoutContainer {
             radioFalse.setValue(true);
             radioGroup.setOriginalValue(radioFalse);
         }
-        radioGroup.setLabelStyle("word-break:break-all");
+        radioGroup.setLabelStyle(CssLiterals.WORD_BREAK_BREAK_ALL);
         return radioGroup;
     }
 
@@ -765,10 +769,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && intValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && intValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -809,10 +813,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && longValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && longValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -853,10 +857,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && doubleValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && doubleValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -897,10 +901,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && floatValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && floatValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -941,10 +945,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && shortValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && shortValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -985,10 +989,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && byteValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && byteValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -1029,10 +1033,10 @@ public class DeviceConfigPanel extends LayoutContainer {
             }
 
             if (minValue != null && charValue < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             if (maxValue != null && charValue > maxValue) {
-                return MessageUtils.get("configMaxValue", maxValue);
+                return MessageUtils.get(CONFIG_MAX_VALUE, maxValue);
             }
 
             return null;
@@ -1064,10 +1068,10 @@ public class DeviceConfigPanel extends LayoutContainer {
         @Override
         public String validate(Field<?> field, String value) {
             if (value.length() > maxValue) {
-                return MessageUtils.get("configMaxValue", (maxValue + 1));
+                return MessageUtils.get(CONFIG_MAX_VALUE, (maxValue + 1));
             }
             if (value.length() < minValue) {
-                return MessageUtils.get("configMinValue", minValue);
+                return MessageUtils.get(CONFIG_MIN_VALUE, minValue);
             }
             return null;
         }

@@ -68,6 +68,8 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
     private static final String PROVIDER_FAILED_TO_CONFIGURE_MSG = "Failed to configure ElasticSearch rest client";
     private static final String PROVIDER_FAILED_TO_CONFIGURE_SSL_MSG = "Failed to configure ElasticSearch ssl rest client layer";
     private static final String PROVIDER_CANNOT_CLOSE_CLIENT_MSG = "Cannot close ElasticSearch rest client. Client is already stopped or not initialized!";
+    private static final String INITIALIZING_ES_REST_CLIENT = ">>> Initializing ES rest client...";
+    private static final String INITIALIZING_ES_REST_CLIENT_DONE = ">>> Initializing ES rest client... DONE";
 
     private static final int DEFAULT_PORT = 9200;
     private static final String DEFAULT_KEY_STORE_TYPE = "jks";
@@ -84,7 +86,7 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
 
     /**
      * Get the {@link EsRestClientProvider} instance
-     * 
+     *
      * @return
      * @throws ClientUnavailableException
      */
@@ -100,16 +102,16 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
      * The nodes addresses and other parameters are read from the configuration file.<br>
      * <b>NOTE. The init methods can be called more than once in order to reinitialize the underlying datastore connection. It the datastore was already initialized this method close the old one
      * before initializing the new one.</b>
-     * 
+     *
      * @return
      * @throws ClientUnavailableException
      */
     public static EsRestClientProvider init() throws ClientUnavailableException {
         synchronized (EsRestClientProvider.class) {
-            logger.info(">>> Initializing ES rest client...");
+            logger.info(INITIALIZING_ES_REST_CLIENT);
             closeIfInstanceInitialized();
             instance = new EsRestClientProvider();
-            logger.info(">>> Initializing ES rest client... DONE");
+            logger.info(INITIALIZING_ES_REST_CLIENT_DONE);
         }
         return instance;
     }
@@ -119,16 +121,16 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
      * The nodes addresses and other parameters are overwritten with the provided settings.<br>
      * <b>NOTE. The init methods can be called more than once in order to reinitialize the underlying datastore connection. It the datastore was already initialized this method close the old one
      * before initializing the new one.</b>
-     * 
+     *
      * @param settings
      * @throws ClientException
      */
     public static void init(AbstractBaseKapuaSetting<ClientSettingsKey> settings) throws ClientException {
         synchronized (EsRestClientProvider.class) {
-            logger.info(">>> Initializing ES rest client...");
+            logger.info(INITIALIZING_ES_REST_CLIENT);
             closeIfInstanceInitialized();
             instance = new EsRestClientProvider(settings);
-            logger.info(">>> Initializing ES rest client... DONE");
+            logger.info(INITIALIZING_ES_REST_CLIENT_DONE);
         }
     }
 
@@ -136,17 +138,17 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
      * Initialize the {@link EsRestClientProvider} singleton instance.<br>
      * <b>NOTE. The init methods can be called more than once in order to reinitialize the underlying datastore connection. It the datastore was already initialized this method close the old one
      * before initializing the new one.</b>
-     * 
+     *
      * @param addresses
      *            nodes addresses list
      * @throws ClientException
      */
     public static void init(List<InetSocketAddress> addresses) throws ClientException {
         synchronized (EsRestClientProvider.class) {
-            logger.info(">>> Initializing ES rest client...");
+            logger.info(INITIALIZING_ES_REST_CLIENT);
             closeIfInstanceInitialized();
             instance = new EsRestClientProvider(addresses);
-            logger.info(">>> Initializing ES rest client... DONE");
+            logger.info(INITIALIZING_ES_REST_CLIENT_DONE);
         }
     }
 
@@ -159,7 +161,7 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
 
     /**
      * Close the ES rest client
-     * 
+     *
      * @throws ClientUnavailableException
      */
     public static void close() throws ClientUnavailableException {
@@ -197,7 +199,7 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
 
     /**
      * Create the Elasticsearch rest client based on the provided configuration settings
-     * 
+     *
      * @param settings
      * @throws ClientUnavailableException
      */
@@ -207,7 +209,7 @@ public class EsRestClientProvider implements ClientProvider<RestClient> {
 
     /**
      * Create the Elasticsearch rest client based on the provided configuration addresses
-     * 
+     *
      * @param addresses
      * @throws ClientUnavailableException
      */
