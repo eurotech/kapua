@@ -13,7 +13,7 @@ package org.eclipse.kapua.app.console.module.job.client.targets;
 
 import org.eclipse.kapua.app.console.module.api.client.resources.icons.IconSet;
 import org.eclipse.kapua.app.console.module.api.client.resources.icons.KapuaIcon;
-import org.eclipse.kapua.app.console.module.api.client.ui.button.Button;
+import org.eclipse.kapua.app.console.module.api.client.ui.button.KapuaButton;
 import org.eclipse.kapua.app.console.module.api.client.ui.dialog.KapuaDialog;
 import org.eclipse.kapua.app.console.module.api.client.ui.widget.EntityCRUDToolbar;
 import org.eclipse.kapua.app.console.module.api.shared.model.session.GwtSession;
@@ -40,8 +40,8 @@ public class JobTabTargetsToolbar extends EntityCRUDToolbar<GwtJobTarget> {
 
     private GwtJob gwtSelectedJob;
 
-    private Button jobStartTargetButton;
-    private Button exportButton;
+    private KapuaButton jobStartTargetButton;
+    private KapuaButton exportButton;
 
     public JobTabTargetsToolbar(GwtSession currentSession) {
         super(currentSession, true);
@@ -74,7 +74,7 @@ public class JobTabTargetsToolbar extends EntityCRUDToolbar<GwtJobTarget> {
 
     @Override
     protected void onRender(Element target, int index) {
-        jobStartTargetButton = new Button(JOB_MSGS.jobStartTargetButton(), new KapuaIcon(IconSet.PLAY), new SelectionListener<ButtonEvent>() {
+        jobStartTargetButton = new KapuaButton(JOB_MSGS.jobStartTargetButton(), new KapuaIcon(IconSet.PLAY), new SelectionListener<ButtonEvent>() {
 
             @Override
             public void componentSelected(ButtonEvent buttonEvent) {
@@ -85,7 +85,7 @@ public class JobTabTargetsToolbar extends EntityCRUDToolbar<GwtJobTarget> {
         jobStartTargetButton.disable();
         addExtraButton(jobStartTargetButton);
 
-        exportButton = new Button(JOB_MSGS.exportToCSV(), new KapuaIcon(IconSet.FILE_TEXT_O),
+        exportButton = new KapuaButton(JOB_MSGS.exportToCSV(), new KapuaIcon(IconSet.FILE_TEXT_O),
                 new SelectionListener<ButtonEvent>() {
 
                     @Override
