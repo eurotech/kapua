@@ -17,6 +17,7 @@ import org.eclipse.kapua.commons.jpa.JdbcConnectionUrlResolvers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -169,7 +170,9 @@ public class DBHelper {
 
         while(sqlResults.next()) {
             String sqlStatement = String.format("DROP TABLE %s", sqlResults.getString("TABLE_NAME").toUpperCase());
-            connection.prepareStatement(sqlStatement).execute();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement)) {
+                preparedStatement.execute();
+            }
         }
 
         this.close();

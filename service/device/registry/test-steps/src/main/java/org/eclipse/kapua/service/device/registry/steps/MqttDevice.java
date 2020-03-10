@@ -186,37 +186,38 @@ public class MqttDevice {
         MqttConnectOptions clientOpts = new MqttConnectOptions();
         clientOpts.setUserName(userName);
         clientOpts.setPassword(password.toCharArray());
-        MqttClient mqttClient = null;
-        mqttClient = new MqttClient(BROKER_URI, clientId,
-                new MemoryPersistence());
-        mqttClient.connect(clientOpts);
-        if ((topicFilter != null) && (topicFilter.length() > 0)) {
-            mqttClient.subscribe(topicFilter, DEFAULT_QOS);
+        try (MqttClient mqttClient = new MqttClient(BROKER_URI, clientId,
+                new MemoryPersistence())) {
+            mqttClient.connect(clientOpts);
+            if ((topicFilter != null) && (topicFilter.length() > 0)) {
+                mqttClient.subscribe(topicFilter, DEFAULT_QOS);
+            }
+
+            mqttClient.setCallback(new MqttCallback() {
+
+                @Override
+                public void connectionLost(Throwable throwable) {
+                    logger.info("Client connection to broker lost.");
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                    logger.info("Message arrived in client with topic: " + topic);
+
+                    clientReceivedMqttMessage.clear();
+                    Map<String, String> topicPayload = new HashMap<>();
+                    topicPayload.put(topic, new String(mqttMessage.getPayload()));
+                    clientReceivedMqttMessage.put(clientId, topicPayload);
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+                    logger.info("Client message delivery complete.");
+                }
+            });
+
+            mqttClients.put(clientId, mqttClient);
         }
-
-        mqttClient.setCallback(new MqttCallback() {
-            @Override
-            public void connectionLost(Throwable throwable) {
-                logger.info("Client connection to broker lost.");
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                logger.info("Message arrived in client with topic: " + topic);
-
-                clientReceivedMqttMessage.clear();
-                Map<String, String> topicPayload = new HashMap<>();
-                topicPayload.put(topic, new String(mqttMessage.getPayload()));
-                clientReceivedMqttMessage.put(clientId, topicPayload);
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-                logger.info("Client message delivery complete.");
-            }
-        });
-
-        mqttClients.put(clientId, mqttClient);
     }
 
     /**

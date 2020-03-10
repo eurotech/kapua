@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
@@ -116,7 +117,9 @@ public abstract class AbstractSingleSignOnService implements SingleSignOnService
 
         final JsonObject jsonObject;
         try (final InputStream stream = urlConnection.getInputStream()) {
-            jsonObject = Json.createReader(stream).readObject();
+            try (JsonReader jsonReader = Json.createReader(stream)) {
+                jsonObject = jsonReader.readObject();
+            }
         }
         return jsonObject;
     }

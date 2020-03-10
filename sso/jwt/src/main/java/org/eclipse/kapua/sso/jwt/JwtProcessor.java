@@ -25,6 +25,7 @@ import java.util.Optional;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
@@ -140,7 +141,9 @@ public class JwtProcessor implements AutoCloseable {
 
         try (final InputStream stream = new URL(issuer.toString() + "/" + OPEN_ID_CONFIGURATION_WELL_KNOWN_PATH).openStream()) {
             // Parse json response
-            jsonObject = Json.createReader(stream).readObject();
+            try (JsonReader jsonReader = Json.createReader(stream)) {
+                jsonObject = jsonReader.readObject();
+            }
         }
 
         // Get and clean jwks_uri property
