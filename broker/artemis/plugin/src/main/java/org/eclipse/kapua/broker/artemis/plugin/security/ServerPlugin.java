@@ -31,7 +31,6 @@ import org.eclipse.kapua.broker.artemis.plugin.security.connector.AcceptorHandle
 import org.eclipse.kapua.broker.artemis.plugin.security.context.SecurityContext.LockType;
 import org.eclipse.kapua.broker.artemis.plugin.security.event.BrokerEvent;
 import org.eclipse.kapua.broker.artemis.plugin.security.event.BrokerEvent.EventType;
-import org.eclipse.kapua.broker.artemis.plugin.security.event.BrokerEventHandler;
 import org.eclipse.kapua.broker.artemis.plugin.security.metric.LoginMetric;
 import org.eclipse.kapua.broker.artemis.plugin.security.metric.PublishMetric;
 import org.eclipse.kapua.broker.artemis.plugin.security.metric.SubscribeMetric;
@@ -40,8 +39,6 @@ import org.eclipse.kapua.broker.artemis.plugin.security.setting.BrokerSettingKey
 import org.eclipse.kapua.client.security.context.SessionContext;
 import org.eclipse.kapua.client.security.context.Utils;
 import org.eclipse.kapua.commons.core.ServiceModuleBundle;
-import org.eclipse.kapua.commons.setting.system.SystemSetting;
-import org.eclipse.kapua.commons.setting.system.SystemSettingKey;
 import org.eclipse.kapua.commons.util.KapuaDateUtils;
 import org.eclipse.kapua.commons.util.xml.XmlUtil;
 import org.eclipse.kapua.event.ServiceEvent;
@@ -91,7 +88,6 @@ public class ServerPlugin implements ActiveMQServerPlugin {
     private final BrokerSetting brokerSetting;
     private final PluginUtility pluginUtility;
 
-    protected BrokerEventHandler brokerEventHandler;
     protected AcceptorHandler acceptorHandler;
     protected String version;
     protected ServerContext serverContext;
@@ -117,13 +113,10 @@ public class ServerPlugin implements ActiveMQServerPlugin {
     public void registered(ActiveMQServer server) {
         logger.info("registering plugin {}...", this.getClass().getName());
         try {
-            String clusterName = SystemSetting.getInstance().getString(SystemSettingKey.CLUSTER_NAME);
             serverContext.init(server);
-            KapuaLocator kapuaLocator = KapuaLocator.getInstance();
             //metricsSecurityPlugin (singleton) initialized by serverContext.init(server)
-            brokerEventHandler = new BrokerEventHandler("ServerPlugin", 0l, 10000l, kapuaLocator.getComponent(MetricsSecurityPlugin.class));
-            brokerEventHandler.registerConsumer((brokerEvent) -> disconnectClient(brokerEvent));
-            brokerEventHandler.start();
+            serverContext.getBrokerEventHandler().registerConsumer((brokerEvent) -> disconnectClient(brokerEvent));
+            serverContext.getBrokerEventHandler().start();
             acceptorHandler = new AcceptorHandler(server,
                     brokerSetting.getMap(String.class, BrokerSettingKey.ACCEPTORS));
             //init activateCallback to handle acceptor initialization instead of calling it from here
@@ -404,7 +397,7 @@ public class ServerPlugin implements ActiveMQServerPlugin {
             BrokerEvent disconnectEvent = new BrokerEvent(EventType.disconnectClientByConnectionId, sessionContext, sessionContext);
 
             logger.info("Submitting broker event to disconnect clientId: {}, connectionId: {}", fullClientId, sessionContext.getConnectionId());
-            brokerEventHandler.enqueueEvent(disconnectEvent);
+            serverContext.getBrokerEventHandler().enqueueEvent(disconnectEvent);
         } catch (Exception e) {
             logger.warn("Error processing event: {}", e);
         }
