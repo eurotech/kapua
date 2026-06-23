@@ -204,8 +204,10 @@ public class JwtAuthenticatingRealm extends KapuaAuthenticatingRealm implements 
             } catch (KapuaException e) {
                 throw new ShiroException("Unexpected error while looking for the account ssoData! Cannot verify if log-in via external user is enabled for this account", e);
             }
-            if (ssoDataAccount != null &&
-                    !ssoDataAccount.getAccountSupportsBrokering()) {
+            if (ssoDataAccount == null || ssoDataAccount.getBrokeringApiConnectionIssues()) {
+                throw new ShiroException("Unexpected error while looking for the account ssoData! Connection issues to openID provider");
+            }
+            if (!ssoDataAccount.getAccountSupportsBrokering()) {
                 throw new ShiroException("Unexpected error while looking for the account! It seems account has disabled brokering");
             }
         }

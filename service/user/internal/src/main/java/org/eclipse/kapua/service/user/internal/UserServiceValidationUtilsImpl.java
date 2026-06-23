@@ -21,6 +21,7 @@ import org.eclipse.kapua.KapuaDuplicateNameInAnotherAccountError;
 import org.eclipse.kapua.KapuaEntityNotFoundException;
 import org.eclipse.kapua.KapuaException;
 import org.eclipse.kapua.KapuaIllegalArgumentException;
+import org.eclipse.kapua.KapuaIllegalStateException;
 import org.eclipse.kapua.commons.configuration.ServiceConfigurationManager;
 import org.eclipse.kapua.commons.model.domains.Domains;
 import org.eclipse.kapua.commons.security.KapuaSecurityUtils;
@@ -137,6 +138,9 @@ public final class UserServiceValidationUtilsImpl implements UserServiceValidati
         if (userCreator.getUserType() == UserType.EXTERNAL) {
             if (openIDSetting.getBoolean(OpenIDSettingKeys.SSO_OPENID_BROKERING_ENABLED, false)) {
                 SSOData ssoDataAccount = openIDService.retrieveSSODataForAccount(userCreator.getScopeId());
+                if (ssoDataAccount == null || ssoDataAccount.getBrokeringApiConnectionIssues()) {
+                    throw new KapuaIllegalStateException("SSO brokering is enabled but the SSO data for the account cannot be retrieved");
+                }
                 if (ssoDataAccount.getAccountSupportsBrokering()) {
                     validateExternalUserOnSSOBrokeringEnabled(ssoDataAccount, userCreator);
                 } else {
