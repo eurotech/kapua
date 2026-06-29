@@ -476,7 +476,10 @@ public final class UserServiceValidationUtilsImpl implements UserServiceValidati
         ArgumentValidator.isEmptyOrNull(externalId, prefixTypeUser + ".externalId");
         ArgumentValidator.match(externalUsername, CommonsValidationRegex.EMAIL_REGEXP, prefixTypeUser + ".externalUsername"); //For the current brokering implementation, we expect an email as the external user "key"
         List<String> domainsThisAccount = ssoDataAccount.getCompanyDomainNames();
-        if (domainsThisAccount != null && !domainsThisAccount.isEmpty()) {
+        if (domainsThisAccount == null || domainsThisAccount.isEmpty()) { //if we don't have domains for this org. it means org. is not configured or defined in OpenID provider
+            throw new KapuaIllegalArgumentException(prefixTypeUser + ".externalUsername", externalUsername);
+        }
+        else {
             String userMailDomain = externalUsername.split("@")[1];
             if (!domainsThisAccount.contains(userMailDomain)) {
                 throw new KapuaIllegalArgumentException(prefixTypeUser + ".externalUsername", externalUsername);
