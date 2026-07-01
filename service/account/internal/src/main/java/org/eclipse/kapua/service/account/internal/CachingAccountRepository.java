@@ -29,4 +29,9 @@ public class CachingAccountRepository extends KapuaNamedEntityRepositoryCachingW
     public AccountListResult findChildAccountsRecursive(TxContext tx, String parentAccountPath) throws KapuaException {
         return ((AccountRepository) wrapped).findChildAccountsRecursive(tx, parentAccountPath);
     }
+
+    @Override
+    public AccountListResult findParentAccounts(TxContext tx, String parentAccountPath) {
+        return ((AccountRepository) wrapped).findParentAccounts(tx, parentAccountPath);
+    }
 }

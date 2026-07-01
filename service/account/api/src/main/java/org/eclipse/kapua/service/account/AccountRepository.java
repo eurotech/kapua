@@ -20,4 +20,7 @@ public interface AccountRepository extends
         KapuaNamedEntityRepository<Account, AccountListResult> {
 
     AccountListResult findChildAccountsRecursive(TxContext tx, String parentAccountPath) throws KapuaException;
+
+    AccountListResult findParentAccounts(TxContext tx, String parentAccountPath);
+
 }
