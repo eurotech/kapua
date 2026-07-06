@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021, 2022 Eurotech and/or its affiliates and others
+ * Copyright (c) 2021, 2026 Eurotech and/or its affiliates and others
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -44,6 +44,7 @@ public class SessionContext {
     private KapuaId kapuaConnectionId;
     private String brokerHost;
     private String connectorName;
+    private boolean device;
     private String transportProtocol;
     private Certificate[] certificates;
     private KapuaSession kapuaSession;
@@ -71,6 +72,7 @@ public class SessionContext {
         clientId = connectionInfo.getClientId();
         clientIp = connectionInfo.getClientIp();
         connectorName = connectionInfo.getConnectorName();
+        device = connectionInfo.isDevice();
         transportProtocol = connectionInfo.getTransportProtocol();
         certificates = connectionInfo.getCertificates();
         this.properties = new HashMap<>();
@@ -149,6 +151,10 @@ public class SessionContext {
 
     public String getConnectorName() {
         return connectorName;
+    }
+
+    public boolean isDevice() {
+        return device;
     }
 
     public String getTransportProtocol() {

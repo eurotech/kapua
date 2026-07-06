@@ -164,6 +164,9 @@ public final class SecurityContext {
                 if (!isInternal) {
                     //fill by full client id context
                     sessionContextMapByClient.put(Utils.getFullClientId(sessionContext), sessionContext);
+                    if (sessionContext.isDevice()) {
+                        loginMetric.getConnectedDevice().incrementAndGet();
+                    }
                 }
                 return true;
             } else {
@@ -233,6 +236,9 @@ public final class SecurityContext {
                     logger.info("Disconnect: stealing - leave session context by clientId: {} - connection id: {} (old connection id: {})",
                             currentSessionContext.getClientId(), currentSessionContext.getConnectionId(), connectionId);
                 }
+            }
+            if (sessionContext.isDevice()) {
+                loginMetric.getConnectedDevice().decrementAndGet();
             }
             return currentSessionContext;
         }
