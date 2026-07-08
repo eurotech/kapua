@@ -36,7 +36,9 @@ import org.eclipse.kapua.commons.setting.system.SystemSetting;
 import org.eclipse.kapua.locator.KapuaLocator;
 import org.eclipse.kapua.model.query.QueryFactory;
 import org.eclipse.kapua.plugin.sso.openid.OpenIDLocator;
+import org.eclipse.kapua.plugin.sso.openid.OpenIDService;
 import org.eclipse.kapua.plugin.sso.openid.provider.setting.OpenIDSetting;
+import org.eclipse.kapua.plugin.sso.openid.provider.setting.OpenIDSettingKeys;
 import org.eclipse.kapua.qa.common.MockedLocator;
 import org.eclipse.kapua.service.account.AccountService;
 import org.eclipse.kapua.service.authentication.mfa.MfaAuthenticator;
@@ -58,6 +60,7 @@ import org.eclipse.kapua.service.user.internal.UserFactoryImpl;
 import org.eclipse.kapua.service.user.internal.UserImplJpaRepository;
 import org.eclipse.kapua.service.user.internal.UserServiceImpl;
 import org.eclipse.kapua.service.user.internal.UserServiceValidationUtilsImpl;
+import org.eclipse.kapua.service.user.steps.StubOpenIDService;
 import org.eclipse.kapua.storage.TxManager;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
@@ -151,6 +154,18 @@ public class UserLocatorConfiguration {
                                 userRepository),
                         new ResourceBasedServiceConfigurationMetadataProvider()
                 );
+
+                // --- OpenID stub setup ---
+                OpenIDService stubOpenIDService = new StubOpenIDService();
+
+                OpenIDLocator mockOpenIDLocator = Mockito.mock(OpenIDLocator.class);
+                Mockito.when(mockOpenIDLocator.getService()).thenReturn(stubOpenIDService);
+                bind(OpenIDLocator.class).toInstance(mockOpenIDLocator);
+
+                OpenIDSetting mockOpenIDSetting = Mockito.mock(OpenIDSetting.class);
+                Mockito.when(mockOpenIDSetting.getBoolean(OpenIDSettingKeys.SSO_OPENID_BROKERING_ENABLED, false))
+                        .thenReturn(true);
+
                 bind(UserService.class).toInstance(
                         new UserServiceImpl(
                                 txManager,
@@ -168,8 +183,8 @@ public class UserLocatorConfiguration {
                                     mockTagService,
                                     mockTagFactory,
                                     userRepository,
-                                        Mockito.mock(OpenIDLocator.class),
-                                        Mockito.mock(OpenIDSetting.class)
+                                        mockOpenIDLocator,
+                                        mockOpenIDSetting
                                 ),
                                 new UserImplJpaRepository(jpaRepoConfig),
                                 new EventStorerImpl(new EventStoreRecordImplJpaRepository(jpaRepoConfig)))

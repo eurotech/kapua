@@ -47,6 +47,8 @@ public class AccountImplJpaRepository
         return result;
     }
 
+    //fetch parent accounts (the chain of accounts) from the given account path, excluding the account itself.
+    //The ordering of the returned list is from the direct parent to the root account.
     @Override
     public AccountListResult findParentAccounts(TxContext tx, String parentAccountPath) {
         String[] pathParts = parentAccountPath.split("/");

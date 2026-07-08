@@ -445,6 +445,227 @@ Feature: User Service
     Then I find users with email "nemanja2@kapua.com"
     And No exception was thrown
 
+     # ===================================
+    # External user create scenarios
+    # ===================================
+
+  Scenario: Create external user with allowed domain succeeds
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    Then I find user with name "test-user"
+
+  Scenario: Create external user with allowed domain succeeds - 2
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external username "user@example.com" in scope with id 42
+    When I create user
+    Then I find user with name "test-user"
+
+  Scenario: Create external user with disallowed domain throws exception
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    And I expect the exception "KapuaIllegalArgumentException" with the text "*"
+    And External user with name "test-user" and external username "user@notallowed.com" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+  Scenario: Create external user with empty domains throws exception
+    Given I reset SSO stub
+    And brokering is enabled with no domains for current account
+    And I expect the exception "KapuaIllegalArgumentException" with the text "An illegal value was provided"
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+  Scenario: Create external user with null domains throws exception
+    Given I reset SSO stub
+    And brokering is enabled with null domains for current account
+    And I expect the exception "KapuaIllegalArgumentException" with the text "An illegal value was provided"
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+  Scenario: Create external user with connection issues throws exception
+    Given I reset SSO stub
+    And brokering has connection issues for current account
+    And I expect the exception "KapuaIllegalStateException" with the text "*"
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+  Scenario: Create external user when SSO data is null throws exception
+    Given I reset SSO stub
+    And SSO data is null for current account
+    And I expect the exception "KapuaIllegalStateException" with the text "The application is in an illegal state"
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+  Scenario: Create external user with invalid email format throws exception
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    And I expect the exception "KapuaIllegalArgumentException" with the text "An illegal value was provided"
+    And External user with name "test-user" and external username "not-an-email" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+  Scenario: Create external user with external id when brokering disabled succeeds
+    Given I reset SSO stub
+    And brokering is disabled for current account
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external id "some-external-id" in scope with id 42
+    When I create user
+    Then I find user with name "test-user"
+
+  Scenario: Create external user with random username - mail when brokering disabled succeeds
+    Given I reset SSO stub
+    And brokering is disabled for current account
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user", external username "random" and external id "some-external-id" in scope with id 42
+    When I create user
+    Then I find user with name "test-user"
+
+  Scenario: Create external user with random username when brokering disabled succeeds
+    Given I reset SSO stub
+    And brokering is disabled for current account
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user", external username "random" and external id "some-external-id" in scope with id 42
+    When I create user
+    Then I find user with name "test-user"
+
+  Scenario: Create external user with external id when brokering enabled throws exception
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    And I expect the exception "KapuaIllegalArgumentException" with the text "An illegal value was provided for the argument"
+    And External user with name "test-user", external username "random@eurotech.com" and external id "some-external-id" in scope with id 42
+    When I create user
+    Then An exception was thrown
+
+    # ===================================
+    # External user update scenarios
+    # ===================================
+
+  Scenario: Update external user username to allowed domain succeeds
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    And I update external user username to "updated@eurotech.com"
+    Then I find external user with external username "updated@eurotech.com"
+
+  Scenario: Update external user username to disallowed domain throws exception
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    And I expect the exception "KapuaIllegalArgumentException" with the text "An illegal value was provided"
+    And I update external user username to "updated@notallowed.com"
+    Then An exception was thrown
+
+  Scenario: Update external user username to invalid email format throws exception
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    And I expect the exception "KapuaIllegalArgumentException" with the text "An illegal value was provided"
+    And I update external user username to "not-an-email"
+    Then An exception was thrown
+
+  Scenario: Update external user external id when brokering disabled succeeds
+    Given I reset SSO stub
+    And brokering is disabled for current account
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external id "some-external-id" in scope with id 42
+    When I create user
+    And I update external user external id to "updated-external-id"
+    Then I find external user with external id "updated-external-id"
+
+  Scenario: Update external user username when brokering disabled to second allowed domain succeeds
+    Given I reset SSO stub
+    And brokering is enabled for current account with domains "eurotech.com,example.com"
+    When I configure the user service for the account with the id 42
+      | type    | name                       | value |
+      | boolean | infiniteChildEntities      | true  |
+      | integer | maxNumberChildEntities     | 5     |
+      | boolean | lockoutPolicy.enabled      | false |
+      | integer | lockoutPolicy.maxFailures  | 3     |
+      | integer | lockoutPolicy.resetAfter   | 300   |
+      | integer | lockoutPolicy.lockDuration | 3     |
+    And External user with name "test-user" and external username "user@eurotech.com" in scope with id 42
+    When I create user
+    And I update external user username to "user@example.com"
+    Then I find external user with external username "user@example.com"
+
   @teardown
   Scenario: Reset Security Context for all scenarios
     Given Clean Locator Instance
