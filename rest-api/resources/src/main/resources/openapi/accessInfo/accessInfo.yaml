@@ -14,35 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    accessInfoId:
-      description: The ID of the AccessInfo on which to perform the operation
-      name: accessInfoId
-      in: path
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    accessPermissionId:
-      name: accessPermissionId
-      in: path
-      description: The ID of the AccessPermission on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    accessRoleId:
-      name: accessRoleId
-      in: path
-      description: The ID of the AccessRole on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    userId:
-      name: userId
-      in: query
-      description: The ID of the User to use as a filter in the query
-      schema:
-        allOf:
-          - $ref: '../openapi.yaml#/components/schemas/kapuaId'
   schemas:
     accessInfo:
       allOf:

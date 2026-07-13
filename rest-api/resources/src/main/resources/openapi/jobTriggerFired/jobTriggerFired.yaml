@@ -14,14 +14,6 @@ info:
 paths: { }
 
 components:
-  parameters:
-    triggerId:
-      name: triggerId
-      in: path
-      description: The ID of the Job Trigger on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
   schemas:
     firedTrigger:
       allOf:
@@ -38,7 +30,7 @@ components:
             status:
               $ref: './jobTriggerFired.yaml#/components/schemas/firedTriggerStatus'
             triggerId:
-              $ref: './jobTriggerFired.yaml#/components/parameters/triggerId'
+              $ref: '../openapi.yaml#/components/parameters/triggerId'
     firedTriggerListResult:
       allOf:
         - $ref: '../openapi.yaml#/components/schemas/kapuaListResult'

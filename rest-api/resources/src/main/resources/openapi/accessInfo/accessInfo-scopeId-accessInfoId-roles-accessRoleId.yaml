@@ -20,8 +20,8 @@ paths:
       operationId: accessRoleGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessInfoId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessRoleId'
+        - $ref: '../openapi.yaml#/components/parameters/accessInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/accessRoleId'
       responses:
         200:
           description: The details of the desired AccessRole
@@ -46,8 +46,8 @@ paths:
       operationId: accessRoleDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessInfoId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessRoleId'
+        - $ref: '../openapi.yaml#/components/parameters/accessInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/accessRoleId'
       responses:
         204:
           description: The AccessRole has been deleted

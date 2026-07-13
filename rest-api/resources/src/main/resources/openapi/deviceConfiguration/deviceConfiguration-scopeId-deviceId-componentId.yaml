@@ -21,7 +21,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceConfiguration/deviceConfiguration.yaml#/components/parameters/componentId'
+        - $ref: '../openapi.yaml#/components/parameters/componentId'
         - $ref: '../device/device.yaml#/components/parameters/timeout'
       responses:
         200:
@@ -51,7 +51,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceConfiguration/deviceConfiguration.yaml#/components/parameters/componentId'
+        - $ref: '../openapi.yaml#/components/parameters/componentId'
         - $ref: '../device/device.yaml#/components/parameters/timeout'
       requestBody:
         content:

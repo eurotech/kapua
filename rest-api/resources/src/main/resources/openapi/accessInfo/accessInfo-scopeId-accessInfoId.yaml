@@ -20,7 +20,7 @@ paths:
       operationId: accessInfoGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/accessInfoId'
       responses:
         200:
           description: The details of the desired AccessInfo
@@ -45,7 +45,7 @@ paths:
       operationId: accessInfoDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/accessInfoId'
       responses:
         204:
           description: The AccessInfo has been deleted

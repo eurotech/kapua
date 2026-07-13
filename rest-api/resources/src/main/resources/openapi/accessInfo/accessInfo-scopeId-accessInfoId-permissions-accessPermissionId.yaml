@@ -20,8 +20,8 @@ paths:
       operationId: accessPermissionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessInfoId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessPermissionId'
+        - $ref: '../openapi.yaml#/components/parameters/accessInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/accessPermissionId'
       responses:
         200:
           description: The details of the desired AccessPermission
@@ -46,8 +46,8 @@ paths:
       operationId: accessPermissionDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessInfoId'
-        - $ref: './accessInfo.yaml#/components/parameters/accessPermissionId'
+        - $ref: '../openapi.yaml#/components/parameters/accessInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/accessPermissionId'
       responses:
         204:
           description: The AccessPermission has been deleted
