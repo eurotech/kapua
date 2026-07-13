@@ -21,7 +21,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: './deviceBundle.yaml#/components/parameters/bundleId'
+        - $ref: '../openapi.yaml#/components/parameters/bundleId'
         - $ref: '../device/device.yaml#/components/parameters/timeout'
       responses:
         204:

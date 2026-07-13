@@ -20,7 +20,7 @@ paths:
       operationId: userGroupRoleGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
         - $ref: '../group/group.yaml#/components/parameters/groupRoleId'
       responses:
         200:
@@ -46,7 +46,7 @@ paths:
       operationId: userGroupRoleDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
         - $ref: '../group/group.yaml#/components/parameters/groupRoleId'
       responses:
         204:

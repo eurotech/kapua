@@ -20,7 +20,7 @@ paths:
       operationId: triggerDefinitionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './triggerDefinition.yaml#/components/parameters/triggerDefinitionId'
+        - $ref: '../openapi.yaml#/components/parameters/triggerDefinitionId'
       responses:
         200:
           description: The details of the desired Trigger Definition

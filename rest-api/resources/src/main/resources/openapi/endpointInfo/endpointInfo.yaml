@@ -14,23 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    endpointInfoId:
-      name: endpointInfoId
-      in: path
-      description: The ID of the EndpointInfo on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    endpointType:
-      name: endpointType
-      in: query
-      description: The type of the Endpoints to query for
-      schema:
-        allOf:
-          - $ref: '#/components/schemas/endpointType'
-          - default: resource
-      required: false
   schemas:
     endpointInfo:
       allOf:

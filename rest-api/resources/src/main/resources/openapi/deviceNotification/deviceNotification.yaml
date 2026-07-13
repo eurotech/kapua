@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    notificationId:
-      name: notificationId
-      in: path
-      description: The ID of the Registry Notification on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
   schemas:
     deviceNotification:
       allOf:

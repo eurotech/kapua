@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    deviceGroupId:
-      name: deviceGroupId
-      in: path
-      description: The ID of the Device Group on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
   schemas:
     deviceGroup:
       allOf:

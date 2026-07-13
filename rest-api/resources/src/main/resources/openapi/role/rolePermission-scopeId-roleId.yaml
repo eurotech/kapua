@@ -20,7 +20,7 @@ paths:
       operationId: rolePermissionList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './role.yaml#/components/parameters/roleId'
+        - $ref: '../openapi.yaml#/components/parameters/roleId'
         - name: name
           in: query
           description: The domain name to filter results
@@ -58,7 +58,7 @@ paths:
       operationId: rolePermissionCreate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './role.yaml#/components/parameters/roleId'
+        - $ref: '../openapi.yaml#/components/parameters/roleId'
       requestBody:
         description: An object containing the properties for the new RolePermission to be created
         content:

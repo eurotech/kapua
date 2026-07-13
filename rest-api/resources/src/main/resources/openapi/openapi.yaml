@@ -575,6 +575,162 @@ components:
       schema:
         $ref: '#/components/schemas/kapuaId'
       required: true
+    accountId:
+      name: accountId
+      in: path
+      description: The ID of the Account on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    channelInfoId:
+      name: channelInfoId
+      in: path
+      description: The ID of the ChannelInfo on which to perform the operation
+      schema:
+        type: string
+      required: true
+    clientInfoId:
+      name: clientInfoId
+      in: path
+      description: The ID of the ClientInfo on which to perform the operation
+      schema:
+        type: string
+      required: true
+    datastoreMessageId:
+      name: datastoreMessageId
+      in: path
+      description: The ID of the MetricInfo on which to perform the operation
+      schema:
+        type: string
+      required: true
+    metricInfoId:
+      name: metricInfoId
+      in: path
+      description: The ID of the MetricInfo on which to perform the operation
+      schema:
+        type: string
+      required: true
+    bundleId:
+      name: bundleId
+      in: path
+      description: The ID of the Bundle on which to perform the operation
+      schema:
+        type: string
+      required: true
+    deviceEventId:
+      name: deviceEventId
+      in: path
+      description: The ID of the Device Event on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    deviceGroupId:
+      name: deviceGroupId
+      in: path
+      description: The ID of the Device Group on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    notificationId:
+      name: notificationId
+      in: path
+      description: The ID of the Registry Notification on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    snapshotId:
+      name: snapshotId
+      description: The ID of the Snapshot on which to perform the operation
+      in: path
+      required: true
+      schema:
+        type: string
+    domainId:
+      name: domainId
+      in: path
+      description: The ID of the Domain on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    endpointInfoId:
+      name: endpointInfoId
+      in: path
+      description: The ID of the EndpointInfo on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    endpointType:
+      name: endpointType
+      in: query
+      description: The type of the Endpoints to query for
+      schema:
+        allOf:
+          - $ref: './endpointInfo/endpointInfo.yaml#/components/schemas/endpointType'
+          - default: resource
+      required: false
+    stepId:
+      name: stepId
+      in: path
+      description: The ID of the Job Step on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    jobStepDefinitionId:
+      name: jobStepDefinitionId
+      in: path
+      description: The ID of the Job Step Definition on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    targetId:
+      name: targetId
+      in: path
+      description: The entity ID of the on which perform the operations
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    jobTargetStatus:
+      name: status
+      in: query
+      description: the status of the job target
+      schema:
+        $ref: './jobTarget/jobTarget.yaml#/components/schemas/jobTargetStatus'
+      required: false
+    roleId:
+      name: roleId
+      in: path
+      description: The ID of the Role on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    rolePermissionId:
+      name: rolePermissionId
+      in: path
+      description: The ID of the RolePermission on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    tagId:
+      name: tagId
+      in: path
+      description: The ID of the Tag on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    triggerDefinitionId:
+      name: triggerDefinitionId
+      in: path
+      description: The ID of the Trigger Definition on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    userGroupId:
+      name: userGroupId
+      in: path
+      description: The ID of the User Group on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
     scopeId:
       name: scopeId
       in: path

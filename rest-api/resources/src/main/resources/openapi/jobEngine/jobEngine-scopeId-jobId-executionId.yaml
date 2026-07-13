@@ -21,7 +21,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../job/job.yaml#/components/parameters/jobId'
-        - $ref: './jobEngine.yaml#/components/parameters/executionId'
+        - $ref: '../openapi.yaml#/components/parameters/jobExecutionId'
       responses:
         202:
           description: The Job Engine has received the Resume Execution request
@@ -44,7 +44,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../job/job.yaml#/components/parameters/jobId'
-        - $ref: './jobEngine.yaml#/components/parameters/executionId'
+        - $ref: '../openapi.yaml#/components/parameters/jobExecutionId'
       responses:
         204:
           description: The Job Engine has received the Stop Execution request

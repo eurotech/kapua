@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    deviceEventId:
-      name: deviceEventId
-      in: path
-      description: The ID of the Device Event on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
   schemas:
     deviceEvent:
       allOf:

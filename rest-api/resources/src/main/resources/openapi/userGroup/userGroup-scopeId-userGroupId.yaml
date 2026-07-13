@@ -20,7 +20,7 @@ paths:
       operationId: userGroupGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
       responses:
         200:
           description: The details of the desired User Group
@@ -45,7 +45,7 @@ paths:
       operationId: userGroupUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
       requestBody:
         description: An object containing the new properties for the User Group to update
         content:
@@ -82,7 +82,7 @@ paths:
       operationId: userGroupDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
       responses:
         204:
           description: The User Group has been deleted

@@ -25,7 +25,7 @@ paths:
           description: The endpointInfo usage to filter results
           schema:
             type: string
-        - $ref: './endpointInfo.yaml#/components/parameters/endpointType'
+        - $ref: '../openapi.yaml#/components/parameters/endpointType'
         - $ref: '../openapi.yaml#/components/parameters/askTotalCount'
         - $ref: '../openapi.yaml#/components/parameters/sortParam'
         - name: sortDir

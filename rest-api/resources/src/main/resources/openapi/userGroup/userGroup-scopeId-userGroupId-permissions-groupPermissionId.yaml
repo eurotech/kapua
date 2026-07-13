@@ -20,7 +20,7 @@ paths:
       operationId: userGroupPermissionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
         - $ref: '../group/group.yaml#/components/parameters/groupPermissionId'
       responses:
         200:
@@ -46,7 +46,7 @@ paths:
       operationId: userGroupPermissionDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
         - $ref: '../group/group.yaml#/components/parameters/groupPermissionId'
       responses:
         204:

@@ -20,7 +20,7 @@ paths:
       operationId: userGroupPermissionList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
         - $ref: '../openapi.yaml#/components/parameters/askTotalCount'
         - $ref: '../openapi.yaml#/components/parameters/sortParam'
         - $ref: '../openapi.yaml#/components/parameters/sortDir'
@@ -48,7 +48,7 @@ paths:
       operationId: userGroupPermissionCreate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
       requestBody:
         content:
           application/json:

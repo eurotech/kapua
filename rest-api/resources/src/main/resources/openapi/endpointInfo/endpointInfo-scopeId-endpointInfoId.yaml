@@ -20,7 +20,7 @@ paths:
       operationId: endpointInfoGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './endpointInfo.yaml#/components/parameters/endpointInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/endpointInfoId'
       responses:
         200:
           description: The details of the desired EndpointInfo
@@ -45,7 +45,7 @@ paths:
       operationId: endpointInfoUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './endpointInfo.yaml#/components/parameters/endpointInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/endpointInfoId'
       requestBody:
         description: An object containing the new properties for the EndpointInfo to update
         content:
@@ -90,7 +90,7 @@ paths:
       operationId: endpointInfoDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './endpointInfo.yaml#/components/parameters/endpointInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/endpointInfoId'
       responses:
         204:
           description: The EndpointInfo has been deleted

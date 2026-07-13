@@ -20,7 +20,7 @@ paths:
       operationId: jobStepDefinitionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './jobStepDefinition.yaml#/components/parameters/jobStepDefinitionId'
+        - $ref: '../openapi.yaml#/components/parameters/jobStepDefinitionId'
       responses:
         200:
           description: The details of the desired Job Step Definition

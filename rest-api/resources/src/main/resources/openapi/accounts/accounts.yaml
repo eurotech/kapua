@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    accountId:
-      name: accountId
-      in: path
-      description: The ID of the Account on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
   schemas:
     account:
       allOf:

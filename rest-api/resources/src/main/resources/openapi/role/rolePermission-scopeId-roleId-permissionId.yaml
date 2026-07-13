@@ -20,8 +20,8 @@ paths:
       operationId: rolePermissionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './role.yaml#/components/parameters/roleId'
-        - $ref: './role.yaml#/components/parameters/rolePermissionId'
+        - $ref: '../openapi.yaml#/components/parameters/roleId'
+        - $ref: '../openapi.yaml#/components/parameters/rolePermissionId'
       responses:
         200:
           description: The details of the desired RolePermission
@@ -46,8 +46,8 @@ paths:
       operationId: rolePermissionDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './role.yaml#/components/parameters/roleId'
-        - $ref: './role.yaml#/components/parameters/rolePermissionId'
+        - $ref: '../openapi.yaml#/components/parameters/roleId'
+        - $ref: '../openapi.yaml#/components/parameters/rolePermissionId'
       responses:
         204:
           description: The RolePermission has been deleted

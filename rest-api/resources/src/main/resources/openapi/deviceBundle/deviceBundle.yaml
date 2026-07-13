@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    bundleId:
-      name: bundleId
-      in: path
-      description: The ID of the Bundle on which to perform the operation
-      schema:
-        type: string
-      required: true
   schemas:
     deviceBundle:
       type: object
