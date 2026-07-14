@@ -22,13 +22,19 @@
         <format>tar.gz</format>
     </formats>
 
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory/>
+
+            <includes>
+                <include>${pom.groupId}:kapua-consumer-lifecycle-app</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+
     <files>
         <file>
             <source>${project.basedir}/entrypoint/run-consumer-lifecycle</source>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>${project.basedir}/../../../consumer/lifecycle-app/target/kapua-consumer-lifecycle-${project.version}-app.jar</source>
             <fileMode>0755</fileMode>
         </file>
     </files>
