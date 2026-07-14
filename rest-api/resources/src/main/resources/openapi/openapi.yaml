@@ -1245,6 +1245,16 @@ components:
       $ref: './authentication/authentication.yaml#/components/schemas/usernamePasswordCredentials'
     jwtCredentials:
       $ref: './authentication/authentication.yaml#/components/schemas/jwtCredentials'
+    username:
+      $ref: './authentication/authentication.yaml#/components/schemas/username'
+    password:
+      $ref: './authentication/authentication.yaml#/components/schemas/password'
+    authenticationCode:
+      $ref: './authentication/authentication.yaml#/components/schemas/authenticationCode'
+    trustKey:
+      $ref: './authentication/authentication.yaml#/components/schemas/trustKey'
+    jwt:
+      $ref: './authentication/authentication.yaml#/components/schemas/jwt'
     ### Credential Entities ###
     credential:
       $ref: './credential/credential.yaml#/components/schemas/credential'
@@ -1353,11 +1363,17 @@ components:
       $ref: './deviceConfiguration/deviceConfiguration.yaml#/components/schemas/option'
     attributeDefinition:
       $ref: './deviceConfiguration/deviceConfiguration.yaml#/components/schemas/attributeDefinition'
+    deviceConfigurationStoreSettings:
+      $ref: './deviceConfiguration/deviceConfiguration.yaml#/components/schemas/deviceConfigurationStoreSettings'
     ### Device Connection Entities ###
     connection:
       $ref: './deviceConnection/deviceConnection.yaml#/components/schemas/connection'
     connectionListResult:
       $ref: './deviceConnection/deviceConnection.yaml#/components/schemas/connectionListResult'
+    connectionOptions:
+      $ref: './deviceConnection/deviceConnection.yaml#/components/schemas/connectionOptions'
+    userCouplingMode:
+      $ref: './deviceConnection/deviceConnection.yaml#/components/schemas/userCouplingMode'
     ### Device Event Entities ###
     deviceEvent:
       $ref: './deviceEvent/deviceEvent.yaml#/components/schemas/deviceEvent'
@@ -1533,6 +1549,8 @@ components:
       $ref: './jobTriggerFired/jobTriggerFired.yaml#/components/schemas/firedTrigger'
     firedTriggerListResult:
       $ref: './jobTriggerFired/jobTriggerFired.yaml#/components/schemas/firedTriggerListResult'
+    firedTriggerStatus:
+      $ref: './jobTriggerFired/jobTriggerFired.yaml#/components/schemas/firedTriggerStatus'
     ### Role Entities ###
     role:
       $ref: './role/role.yaml#/components/schemas/role'
