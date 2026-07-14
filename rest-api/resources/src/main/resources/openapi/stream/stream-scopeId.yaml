@@ -21,7 +21,7 @@ paths:
       description: Publishes a message to a topic composed of [account-name] / [client-id] / [semantic-parts]
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       requestBody:
         content:
           application/json:

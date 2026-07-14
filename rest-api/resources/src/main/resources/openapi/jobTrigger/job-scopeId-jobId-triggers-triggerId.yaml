@@ -20,7 +20,7 @@ paths:
       operationId: jobTriggerGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/triggerId'
       responses:
         200:
@@ -46,7 +46,7 @@ paths:
       operationId: jobTriggerUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/triggerId'
       requestBody:
         description: An object containing the new properties for the Job Trigger to update
@@ -92,7 +92,7 @@ paths:
       operationId: jobTriggerDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/triggerId'
       responses:
         204:

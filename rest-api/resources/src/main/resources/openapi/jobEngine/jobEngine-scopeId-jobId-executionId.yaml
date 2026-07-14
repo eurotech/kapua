@@ -20,7 +20,7 @@ paths:
       operationId: jobResumeExecution
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/jobExecutionId'
       responses:
         202:
@@ -43,7 +43,7 @@ paths:
       operationId: jobStopExecution
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/jobExecutionId'
       responses:
         204:

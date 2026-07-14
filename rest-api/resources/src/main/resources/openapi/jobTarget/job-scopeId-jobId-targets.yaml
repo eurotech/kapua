@@ -20,7 +20,7 @@ paths:
       operationId: jobTargetList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/jobTargetStatus'
         - $ref: '../openapi.yaml#/components/parameters/sortParam'
         - $ref: '../openapi.yaml#/components/parameters/sortDir'
@@ -49,7 +49,7 @@ paths:
       operationId: jobTargetCreate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
       requestBody:
         description: An object containing the properties for the new Job Target to be created
         content:

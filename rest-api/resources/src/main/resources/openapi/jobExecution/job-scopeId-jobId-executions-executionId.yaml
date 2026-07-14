@@ -20,7 +20,7 @@ paths:
       operationId: jobExecutionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/jobExecutionId'
       responses:
         200:

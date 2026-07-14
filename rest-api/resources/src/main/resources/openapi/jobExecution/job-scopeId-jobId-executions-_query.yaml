@@ -20,7 +20,7 @@ paths:
       operationId: jobExecutionQuery
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
       requestBody:
         $ref: '../openapi.yaml#/components/requestBodies/kapuaQuery'
       responses:

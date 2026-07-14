@@ -20,8 +20,8 @@ paths:
       operationId: deviceRegistryNotificationGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceOperation/deviceOperation.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
         - $ref: '../openapi.yaml#/components/parameters/notificationId'
       responses:
         200:
@@ -47,8 +47,8 @@ paths:
       operationId: deviceRegistryNotificationDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceOperation/deviceOperation.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
         - $ref: '../openapi.yaml#/components/parameters/notificationId'
       responses:
         204:

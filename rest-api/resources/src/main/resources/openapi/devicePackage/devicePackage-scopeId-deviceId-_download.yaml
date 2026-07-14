@@ -20,8 +20,8 @@ paths:
       operationId: devicePackageDownload
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       requestBody:
         content:
           application/json:

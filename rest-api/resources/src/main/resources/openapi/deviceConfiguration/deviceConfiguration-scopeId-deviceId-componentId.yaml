@@ -20,9 +20,9 @@ paths:
       operationId: deviceConfigurationRead
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
         - $ref: '../openapi.yaml#/components/parameters/componentId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       responses:
         200:
           description: The Configuration details of a single Service on a single Device
@@ -50,9 +50,9 @@ paths:
       operationId: deviceConfigurationWrite
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
         - $ref: '../openapi.yaml#/components/parameters/componentId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       requestBody:
         content:
           application/json:

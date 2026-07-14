@@ -20,7 +20,7 @@ paths:
       operationId: deviceEventGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
         - $ref: '../openapi.yaml#/components/parameters/deviceEventId'
       responses:
         200:
@@ -46,7 +46,7 @@ paths:
       operationId: deviceEventDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
         - $ref: '../openapi.yaml#/components/parameters/deviceEventId'
       responses:
         204:

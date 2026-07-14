@@ -664,9 +664,11 @@ components:
       in: query
       description: The type of the Endpoints to query for
       schema:
-        allOf:
-          - $ref: './endpointInfo/endpointInfo.yaml#/components/schemas/endpointType'
-          - default: resource
+        type: string
+        enum:
+          - resource
+          - cors
+        default: resource
       required: false
     stepId:
       name: stepId
@@ -694,7 +696,13 @@ components:
       in: query
       description: the status of the job target
       schema:
-        $ref: './jobTarget/jobTarget.yaml#/components/schemas/jobTargetStatus'
+        type: string
+        enum:
+          - PROCESS_OK
+          - PROCESS_FAILED
+          - PROCESS_AWAITING
+          - AWAITING_COMPLETION
+          - NOTIFIED_COMPLETION
       required: false
     roleId:
       name: roleId
@@ -728,6 +736,116 @@ components:
       name: userGroupId
       in: path
       description: The ID of the User Group on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    credentialId:
+      name: credentialId
+      in: path
+      description: The ID of the Credential on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    deviceId:
+      name: deviceId
+      in: path
+      description: The ID of the Device on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    timeout:
+      name: timeout
+      in: query
+      description: The timeout for the request in milliseconds
+      schema:
+        type: integer
+        default: 30000
+    fetchAttributes:
+      name: fetchAttributes
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: './device/device.yaml#/components/schemas/fetchAttribute'
+    clientId:
+      name: clientId
+      in: query
+      description: The client id to filter results
+      schema:
+        type: string
+    connectionId:
+      name: connectionId
+      in: path
+      description: The ID of the Connection on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    connectionStatus:
+      name: status
+      in: query
+      description: The connection status to filter results
+      schema:
+        type: string
+        enum:
+          - 'CONNECTED'
+          - 'DISCONNECTED'
+          - 'MISSING'
+          - 'NULL'
+    clientIp:
+      name: clientIp
+      in: query
+      description: The client ip to filter results
+      schema:
+        type: string
+    protocol:
+      name: protocol
+      in: query
+      description: The connection protocol to filter results
+      schema:
+        type: string
+    operationId:
+      name: operationId
+      in: path
+      description: The ID of the Registry Operation on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    status:
+      name: status
+      in: query
+      description: The status of the Registry Operation on which to perform the operation
+      schema:
+        type: string
+        enum:
+          - RUNNING
+          - COMPLETED
+          - FAILED
+          - STALE
+    groupId:
+      name: groupId
+      in: path
+      description: The ID of the Group on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    groupPermissionId:
+      name: groupPermissionId
+      in: path
+      description: The ID of the Group Permission on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    groupRoleId:
+      name: groupRoleId
+      in: path
+      description: The ID of the Group Role on which to perform the operation
+      schema:
+        $ref: '#/components/schemas/kapuaId'
+      required: true
+    jobId:
+      name: jobId
+      in: path
+      description: The ID of the Job on which to perform the operation
       schema:
         $ref: '#/components/schemas/kapuaId'
       required: true

@@ -20,10 +20,10 @@ paths:
       operationId: deviceBundleList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
         - $ref: '../openapi.yaml#/components/parameters/sortParam'
         - $ref: '../openapi.yaml#/components/parameters/sortDir'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       responses:
         200:
           description: The list of Bundles installed on a single Device

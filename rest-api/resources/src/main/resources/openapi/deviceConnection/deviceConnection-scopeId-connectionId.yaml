@@ -20,7 +20,7 @@ paths:
       operationId: connectionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceConnection.yaml#/components/parameters/connectionId'
+        - $ref: '../openapi.yaml#/components/parameters/connectionId'
       responses:
         200:
           description: The details of the desired Connection

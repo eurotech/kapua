@@ -20,8 +20,8 @@ paths:
       operationId: deviceRegistryNotificationCount
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceOperation/deviceOperation.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
       requestBody:
         $ref: '../openapi.yaml#/components/requestBodies/kapuaQuery'
       responses:

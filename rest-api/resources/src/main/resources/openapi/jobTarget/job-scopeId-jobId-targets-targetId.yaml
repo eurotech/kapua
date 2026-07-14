@@ -20,7 +20,7 @@ paths:
       operationId: jobTargetGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/targetId'
       responses:
         200:
@@ -51,7 +51,7 @@ paths:
       operationId: jobTargetDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - $ref: '../openapi.yaml#/components/parameters/targetId'
       responses:
         204:

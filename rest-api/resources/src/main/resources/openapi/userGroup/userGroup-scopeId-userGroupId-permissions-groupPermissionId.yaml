@@ -21,7 +21,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../openapi.yaml#/components/parameters/userGroupId'
-        - $ref: '../group/group.yaml#/components/parameters/groupPermissionId'
+        - $ref: '../openapi.yaml#/components/parameters/groupPermissionId'
       responses:
         200:
           description: The details of the desired User GroupPermission
@@ -47,7 +47,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../openapi.yaml#/components/parameters/userGroupId'
-        - $ref: '../group/group.yaml#/components/parameters/groupPermissionId'
+        - $ref: '../openapi.yaml#/components/parameters/groupPermissionId'
       responses:
         204:
           description: The Group Permission has been deleted

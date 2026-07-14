@@ -21,7 +21,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../openapi.yaml#/components/parameters/userGroupId'
-        - $ref: '../group/group.yaml#/components/parameters/groupRoleId'
+        - $ref: '../openapi.yaml#/components/parameters/groupRoleId'
       responses:
         200:
           description: The details of the desired User Group Role
@@ -47,7 +47,7 @@ paths:
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
         - $ref: '../openapi.yaml#/components/parameters/userGroupId'
-        - $ref: '../group/group.yaml#/components/parameters/groupRoleId'
+        - $ref: '../openapi.yaml#/components/parameters/groupRoleId'
       responses:
         204:
           description: The UserGroupRole has been deleted
