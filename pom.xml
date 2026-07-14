@@ -649,6 +649,12 @@
             </dependency>
             <dependency>
                 <groupId>org.eclipse.kapua</groupId>
+                <artifactId>kapua-consumer-telemetry-app</artifactId>
+                <version>${project.version}</version>
+                <classifier>app</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.kapua</groupId>
                 <artifactId>kapua-client-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
