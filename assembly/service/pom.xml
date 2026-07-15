@@ -26,10 +26,6 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
-    <properties>
-        <docker.account>kapua</docker.account>
-    </properties>
-
     <modules>
         <module>authentication</module>
     </modules>
