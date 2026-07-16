@@ -31,6 +31,7 @@
         <dependency>
             <groupId>org.eclipse.kapua</groupId>
             <artifactId>kapua-consumer-telemetry-app</artifactId>
+            <classifier>app</classifier>
         </dependency>
     </dependencies>
 
@@ -47,6 +48,31 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Import dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.kapua</groupId>
+                                    <artifactId>kapua-consumer-telemetry-app</artifactId>
+                                    <classifier>app</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
     <profiles>
         <profile>

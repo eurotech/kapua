@@ -22,13 +22,19 @@
         <format>tar.gz</format>
     </formats>
 
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory/>
+
+            <includes>
+                <include>${pom.groupId}:kapua-service-authentication-app</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+
     <files>
         <file>
             <source>${project.basedir}/entrypoint/run-service-authentication</source>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>${project.basedir}/../../../service/authentication-app/target/kapua-service-authentication-${project.version}-app.jar</source>
             <fileMode>0755</fileMode>
         </file>
     </files>

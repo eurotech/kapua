@@ -456,9 +456,12 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
                             <createDependencyReducedPom>true</createDependencyReducedPom>
                             <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                            <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>app</shadedClassifierName>
+
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -552,7 +555,6 @@
                                                     </transformer>
                                  -->
                             </transformers>
-                            <outputFile>${project.build.directory}/kapua-consumer-lifecycle-${project.version}-app.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
