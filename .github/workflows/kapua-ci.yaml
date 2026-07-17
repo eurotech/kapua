@@ -51,6 +51,25 @@ jobs:
       - name: Build Kapua Javadoc
         run: mvn -B -DskipTests install javadoc:jar
 
+  build-docker:
+    needs: build
+    name: Build Docker
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository # Checks out a copy of the repository on the runner
+        uses: actions/checkout@v5
+      - name: Set up runner
+        uses: ./.github/actions/setUpRunner
+      - name: Set up Maven caches
+        uses: ./.github/actions/setUpMavenCaches
+      - name: Build Kapua Docker Images
+        run: mvn -B -DskipTests install -f assembly -P docker
+      - name: Result
+        run: docker images | sort
+
   junit-tests:
     needs: build
     name: Run jUnit Tests
@@ -70,7 +89,9 @@ jobs:
           run-junit: 'true'
 
   test-brokerAcl:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -104,7 +125,9 @@ jobs:
           needs-docker-images: 'false'
 
   test-broker:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -121,7 +144,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-device:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -138,7 +163,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-device-management:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -155,7 +182,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-connection:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -172,7 +201,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-datastore:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -206,7 +237,9 @@ jobs:
           needs-docker-images: 'false'
 
   test-userIntegrationBase:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -223,7 +256,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-userIntegration:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -274,7 +309,9 @@ jobs:
           needs-docker-images: 'false'
 
   test-job-IT:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -291,7 +328,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-jobEngine-IT:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -308,7 +347,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-jobsIntegration:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -359,7 +400,9 @@ jobs:
           needs-docker-images: 'false'
 
   test-deviceRegistry:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -376,7 +419,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-endpoint:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
@@ -393,7 +438,9 @@ jobs:
           needs-docker-images: 'true'
 
   test-api-auth:
-    needs: build
+    needs:
+      - build
+      - build-docker
     permissions:
       contents: read
       pull-requests: write
