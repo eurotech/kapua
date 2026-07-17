@@ -26,25 +26,9 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <!-- Kapua dependencies -->
-        <dependency>
-            <groupId>org.eclipse.kapua</groupId>
-            <artifactId>kapua-assembly-java-base</artifactId>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.kapua</groupId>
-            <artifactId>kapua-job-engine-app-web</artifactId>
-            <type>war</type>
-        </dependency>
-
-        <!-- External dependencies -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-    </dependencies>
+    <properties>
+        <docker.image.name>kapua-job-engine</docker.image.name>
+    </properties>
 
     <build>
         <plugins>
@@ -79,6 +63,7 @@
 
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>release</id>
@@ -96,15 +81,12 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.account}/kapua-job-engine</name>
                                     <build>
                                         <assembly>
                                             <descriptor>${project.basedir}/descriptors/kapua-job-engine-jetty.xml</descriptor>
                                             <mode>tgz</mode>
                                             <tarLongFileMode>posix</tarLongFileMode>
                                         </assembly>
-                                        <dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
-                                        <filter>@</filter>
                                     </build>
                                 </image>
                             </images>
@@ -114,4 +96,24 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencies>
+        <!-- Kapua dependencies -->
+        <dependency>
+            <groupId>org.eclipse.kapua</groupId>
+            <artifactId>kapua-assembly-java-base</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.kapua</groupId>
+            <artifactId>kapua-job-engine-app-web</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <!-- External dependencies -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+    </dependencies>
 </project>

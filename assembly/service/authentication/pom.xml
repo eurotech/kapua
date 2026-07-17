@@ -26,13 +26,9 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.eclipse.kapua</groupId>
-            <artifactId>kapua-service-authentication-app</artifactId>
-            <classifier>app</classifier>
-        </dependency>
-    </dependencies>
+    <properties>
+        <docker.image.name>kapua-service-authentication</docker.image.name>
+    </properties>
 
     <build>
         <resources>
@@ -73,6 +69,7 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>release</id>
@@ -90,14 +87,10 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.account}/kapua-service-authentication</name>
                                     <build>
                                         <assembly>
                                             <descriptor>${project.basedir}/descriptors/kapua-service-authentication.xml</descriptor>
-                                            <basedir>/</basedir>
                                         </assembly>
-                                        <dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
-                                        <filter>@</filter>
                                     </build>
                                 </image>
                             </images>
@@ -107,4 +100,12 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.kapua</groupId>
+            <artifactId>kapua-service-authentication-app</artifactId>
+            <classifier>app</classifier>
+        </dependency>
+    </dependencies>
 </project>

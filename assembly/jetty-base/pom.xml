@@ -28,6 +28,8 @@
     <packaging>pom</packaging>
 
     <properties>
+        <docker.image.name>jetty-base</docker.image.name>
+
         <jetty.url>https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/${jetty.version}/jetty-distribution-${jetty.version}.tar.gz</jetty.url>
     </properties>
 
@@ -60,15 +62,12 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.account}/jetty-base</name>
                                     <build>
                                         <assembly>
                                             <descriptor>${project.basedir}/descriptors/jetty-base.xml</descriptor>
                                             <mode>tgz</mode>
                                             <tarLongFileMode>posix</tarLongFileMode>
                                         </assembly>
-                                        <dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
-                                        <filter>@</filter>
                                     </build>
                                 </image>
                             </images>
