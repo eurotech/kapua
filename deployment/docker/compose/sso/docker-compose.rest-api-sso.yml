@@ -1,6 +1,6 @@
 services:
   kapua-api:
-    image: kapua/kapua-api:${IMAGE_VERSION}-sso
+    image: eclipsekapua/kapua-api:${IMAGE_VERSION}-sso
     environment:
       - KAPUA_OPENID_JWT_ISSUER
       - KAPUA_OPENID_CLIENT_ID

@@ -10,7 +10,7 @@
 #    Contributors:
 #        Eurotech
 ################################################################################
-FROM kapua/kapua-api:latest
+FROM eclipsekapua/kapua-api:latest
 
 USER 0
 COPY ../tls.crt /tmp/tls.crt

@@ -42,7 +42,7 @@ echo ""
     echo "Exporting Kapua images..."
     for SERVICE in ${SERVICES[@]}; do
         echo "    kapua-${SERVICE}:${IMAGE_VERSION}"
-        docker save -o ${TMP_DIR}/${SERVICE} kapua/kapua-${SERVICE}:${IMAGE_VERSION} &> /dev/null ||
+        docker save -o ${TMP_DIR}/${SERVICE} eclipsekapua/kapua-${SERVICE}:${IMAGE_VERSION} &> /dev/null ||
             {
                 echo "    Cannot export image: kapua-${SERVICE}:${IMAGE_VERSION}"
                 echo "    Perhaps it is not present in the local Docker registry?"
@@ -75,7 +75,7 @@ echo ""
         echo "    Perhaps docker images are not present in the local Docker registry?"
         echo "    Please check running command:"
         echo "        docker images"
-        echo "    If no 'kapua/kapua*:${IMAGE_VERSION}' images are present, please build them running command:"
+        echo "    If no 'eclipsekapua/kapua*:${IMAGE_VERSION}' images are present, please build them running command:"
         echo "        mvn clean install -Pconsole,docker"
         echo ""
     }

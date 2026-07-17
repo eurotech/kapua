@@ -1,6 +1,6 @@
 services:
   kapua-console:
-    image: kapua/kapua-console:${IMAGE_VERSION}-sso
+    image: eclipsekapua/kapua-console:${IMAGE_VERSION}-sso
     environment:
       - KAPUA_CONSOLE_URL
       - KAPUA_OPENID_JWT_ISSUER
