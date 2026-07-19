@@ -60,8 +60,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -77,13 +78,15 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
 
     private static final String PROVIDER_CANNOT_CLOSE_CLIENT_MSG = "Cannot close ElasticSearch REST client. Client is already closed or not initialized";
 
-    private RestElasticsearchClientWrapper restElasticsearchClientWrapper;
+    private List<RestElasticsearchClientWrapper> restElasticsearchClientWrappers;
 
     private ElasticsearchClientConfiguration elasticsearchClientConfiguration;
     private ModelContext modelContext;
     private QueryConverter modelConverter;
     private MetricsEsClient metrics;
     private volatile boolean initialized;
+    private volatile boolean closed = true;
+    private AtomicInteger nextClientIndex = new AtomicInteger(0);
 
     @Inject
     public RestElasticsearchClientProvider(MetricsEsClient metricsEsClient) {
@@ -92,10 +95,17 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
 
     @Override
     public RestElasticsearchClientProvider init() throws ClientProviderInitException {
-        if (initialized) {
+        if (!closed) {
+            LOG.warn("Elasticsearch rest client provider: closing the pool failed at a previous stage, trying to close before init.");
+            close();
+        }
+        if (initialized && closed) {
             return this;
         }
         synchronized (RestElasticsearchClientProvider.class) {
+            if (!closed) {
+                throw new ClientProviderInitException("Client pool not closed");
+            }
             if (initialized) { //this check is needed, in addition to the same above, to avoid multiple initializations with multi-threading
                 return this;
             }
@@ -161,8 +171,20 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
 
             // Init Kapua Elasticsearch Client
             try {
-                initClient();
+                int poolSize = elasticsearchClientConfiguration.getPoolSize();
+                if (poolSize >= 1) {
+                    LOG.info("Elasticsearch rest client provider: configured pool of size {}", poolSize);
+                } else {
+                    LOG.warn("Elasticsearch rest client provider: configured pool of size {} is invalid, set to default 1", poolSize);
+                    poolSize = 1;
+                }
+                initClientPool(poolSize);
             } catch (Exception e) {
+                try {
+                    closeClientPool();
+                } catch (IOException ioExc) {
+                    LOG.warn(PROVIDER_CANNOT_CLOSE_CLIENT_MSG, ioExc);
+                }
                 throw new ClientProviderInitException(e, "Cannot init ElasticsearchClientWrapper");
             }
 
@@ -175,7 +197,6 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
 //                    LOG.info(">>> Initializing Elasticsearch REST client... Connecting... Error: {}", e.getMessage(), e);
 //                }
 //            }, getClientReconnectConfiguration().getReconnectDelay(), getClientReconnectConfiguration().getReconnectDelay(), TimeUnit.MILLISECONDS);
-            initialized = true;
             return this;
         }
     }
@@ -191,7 +212,8 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
     public void close() {
         synchronized (RestElasticsearchClientProvider.class) {
             try {
-                closeClient();
+                LOG.info("Elasticsearch rest client provider: closing pool");
+                closeClientPool();
             } catch (IOException e) {
                 LOG.warn(PROVIDER_CANNOT_CLOSE_CLIENT_MSG, e);
             }
@@ -199,14 +221,14 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
     }
 
     /**
-     * Closes the {@link RestClient}.
+     * Closes the {@link RestClient} pool.
      * <p>
      *
      * @throws IOException
      *         see {@link RestClient#close()} javadoc.
-     * @since 1.0.0
+     * @since 2.0.0
      */
-    private void closeClient() throws IOException {
+    private void closeClientPool() throws IOException {
 //        if (reconnectExecutorTask != null) {
 //            reconnectExecutorTask.shutdown();
 //
@@ -220,14 +242,21 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
 //
 //            reconnectExecutorTask = null;
 //        }
-
-        if (restElasticsearchClientWrapper != null) {
-            try {
-                restElasticsearchClientWrapper.close();
-            } finally {
-                restElasticsearchClientWrapper = null;
+        initialized = false;
+        if (restElasticsearchClientWrappers == null) {
+            closed = true;
+            return;
+        }
+        closed = false;
+        for (int i=0; i < restElasticsearchClientWrappers.size(); i++) {
+            if (restElasticsearchClientWrappers.get(i) != null) {
+                restElasticsearchClientWrappers.get(i).close();
+                restElasticsearchClientWrappers.set(i, null);
             }
         }
+        restElasticsearchClientWrappers.clear();
+        restElasticsearchClientWrappers = null;
+        closed = true;
     }
 
     /**
@@ -255,14 +284,26 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
 //    }
 
     /**
-     * Initializes the {@link RestClient} as per {@link ElasticsearchClientConfiguration}.
+     * Initializes the {@link RestClient} pool as per {@link ElasticsearchClientConfiguration}.
      *
-     * @return The initialized {@link RestClient}.
+     * @return The initialized {@link RestClient} pool.
      * @throws ClientInitializationException
      *         if any {@link Exception} occurs while {@link RestClient} initialization.
-     * @since 1.0.0
+     * @since 2.0.0
      */
-    private RestClient initClient() throws ClientInitializationException {
+    private void initClientPool(int poolSize) throws ClientInitializationException {
+        initialized = false;
+        restElasticsearchClientWrappers = new ArrayList<>(poolSize);
+        RestElasticsearchClientWrapper clientPoolItem;
+        for(int i=0; i < poolSize; i++) {
+            clientPoolItem = createClientWrapper();
+            clientPoolItem.init();
+            restElasticsearchClientWrappers.add(clientPoolItem);
+        }
+        initialized = true;
+    }
+
+    private RestElasticsearchClientWrapper createClientWrapper() throws ClientInitializationException {
 
         ElasticsearchClientConfiguration clientConfiguration = getClientConfiguration();
 
@@ -343,15 +384,14 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
         RestClient esRestClientWrapped = restClientBuilder.build();
 
         // Init Kapua Elasticsearch Client
-        restElasticsearchClientWrapper = new RestElasticsearchClientWrapper(metrics);
-        restElasticsearchClientWrapper
-                .withClientConfiguration(clientConfiguration)
+        RestElasticsearchClientWrapper wrapper = new RestElasticsearchClientWrapper(metrics);
+        wrapper.withClientConfiguration(clientConfiguration)
                 .withModelContext(modelContext)
                 .withModelConverter(modelConverter)
                 .withClient(esRestClientWrapped)
                 .init();
 
-        return esRestClientWrapped;
+        return wrapper;
     }
 
     private HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder, SSLContext sslContext, CredentialsProvider credentialsProvider) {
@@ -398,11 +438,11 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
     @Override
     public RestElasticsearchClientWrapper getElasticsearchClient() throws ClientUnavailableException, ClientProviderInitException {
         this.init();
-        if (restElasticsearchClientWrapper == null) {
-            throw new ClientUnavailableException("Client not initialized");
-        }
-
-        return restElasticsearchClientWrapper;
+        // To evenly distribute requests among clients, calculate the index to return in a round robin style.
+        int clientIndex = Math.abs(nextClientIndex.getAndAdd(1) % restElasticsearchClientWrappers.size());
+        LOG.info("Elasticsearch client provider pool get ES client: assign index {} in a pool of {}", clientIndex, restElasticsearchClientWrappers.size());
+        RestElasticsearchClientWrapper clientWrapper = restElasticsearchClientWrappers.get(clientIndex);
+        return clientWrapper;
     }
     // Private methods
 

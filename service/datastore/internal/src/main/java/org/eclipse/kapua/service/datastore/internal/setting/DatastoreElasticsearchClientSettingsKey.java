@@ -118,7 +118,13 @@ public enum DatastoreElasticsearchClientSettingsKey implements SettingKey {
      *
      * @since 1.3.0
      */
-    SSL_TRUSTSTORE_PASSWORD("datastore.elasticsearch.ssl.truststore.password");
+    SSL_TRUSTSTORE_PASSWORD("datastore.elasticsearch.ssl.truststore.password"),
+    /**
+     * Elasticsearch client pool size.
+     *
+     * @since 1.6.0
+    */
+    POOL_SIZE("datastore.elasticsearch.pool.size");
 
     /**
      * The key value in the configuration resources.

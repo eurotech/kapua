@@ -52,6 +52,8 @@ public class DatastoreElasticsearchClientConfiguration extends ElasticsearchClie
         getSslConfiguration().setTrustStorePassword(elasticsearchClientSettings.getString(DatastoreElasticsearchClientSettingsKey.SSL_TRUSTSTORE_PASSWORD));
 
         getReconnectConfiguration().setReconnectDelay(30000);
+
+        setPoolSize(elasticsearchClientSettings.getInt(DatastoreElasticsearchClientSettingsKey.POOL_SIZE));
     }
 
     public static ElasticsearchClientConfiguration getInstance() {

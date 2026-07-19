@@ -30,6 +30,7 @@ public class ElasticsearchClientConfiguration {
     private List<ElasticsearchNode> nodes;
     private String username;
     private String password;
+    private int poolSize;
 
     private ElasticsearchClientReconnectConfiguration reconnectConfiguration;
     private ElasticsearchClientRequestConfiguration requestConfiguration;
@@ -254,6 +255,29 @@ public class ElasticsearchClientConfiguration {
      */
     public ElasticsearchClientConfiguration setSslConfiguration(ElasticsearchClientSslConfiguration sslConfiguration) {
         this.sslConfiguration = sslConfiguration;
+        return this;
+    }
+
+    /**
+     * Gets the size of the Elasticsearch client pool.
+     *
+     * @return The size of the Elasticsearch client pool.
+     * @since 1.6.0
+     */
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    /**
+     * Sets the size of the Elasticsearch client pool.
+     *
+     * @param poolSize
+     *         The size of the Elasticsearch client pool.
+     * @return This {@link ElasticsearchClientConfiguration} to chain method invocation.
+     * @since 1.6.0
+     */
+    public ElasticsearchClientConfiguration setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
         return this;
     }
 }
