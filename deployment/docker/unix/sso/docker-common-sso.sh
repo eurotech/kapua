@@ -15,7 +15,7 @@
 
 SCRIPT_DIR_SSO="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-export DOCKER_ACCOUNT=${DOCKER_ACCOUNT:=kapua}
+export DOCKER_ACCOUNT=${DOCKER_ACCOUNT:=eclipsekapua}
 
 # Parse ifconfig and take the first available IP address (should work for all *nix systems)
 EXTERNAL_IP=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v '127.0.0.1' | awk '{ print $2 }' | cut -f2 -d: | head -n1)
@@ -30,7 +30,7 @@ export SSO_KEY="${SSO_KEY:=${SSO_CRT_DIR}/${SSO_KEY_FILE}}"
 
 export KEYCLOAK_HOST_NAME="${KEYCLOAK_HOST_NAME:=${EXTERNAL_IP}}"
 
-export KEYCLOAK_IMAGE="${KEYCLOAK_IMAGE:=kapua/kapua-keycloak:${IMAGE_VERSION}}"
+export KEYCLOAK_IMAGE="${KEYCLOAK_IMAGE:=eclipsekapua/kapua-keycloak:${IMAGE_VERSION}}"
 export KEYCLOAK_PORT_HTTP=9090
 export KEYCLOAK_PORT_HTTPS=9443
 

@@ -1,7 +1,7 @@
 services:
   keycloak:
     container_name: kapua-keycloak
-    image: kapua/kapua-keycloak:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-keycloak:${IMAGE_VERSION}
     ports:
       - "${KEYCLOAK_PORT_HTTP}:9090"
       - "${KEYCLOAK_PORT_HTTPS}:8443"

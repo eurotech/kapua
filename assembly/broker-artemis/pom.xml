@@ -26,6 +26,91 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
+    <properties>
+        <docker.image.name>kapua-broker-artemis</docker.image.name>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>kapua-broker-artemis</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>descriptors/kapua-broker-artemis.xml</descriptor>
+                            </descriptors>
+                            <tarLongFileMode>posix</tarLongFileMode>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-artemis</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>apache-artemis</artifactId>
+                                    <classifier>bin</classifier>
+                                    <type>tar.gz</type>
+                                    <outputDirectory>target/dependencies/artemis</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <timestamp>latest</timestamp>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <build>
+                                        <assembly>
+                                            <descriptor>${project.basedir}/descriptors/kapua-broker-artemis.xml</descriptor>
+                                        </assembly>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.eclipse.kapua</groupId>
@@ -203,89 +288,4 @@
             <artifactId>log4j-to-slf4j</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>kapua-broker-artemis</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>descriptors/kapua-broker-artemis.xml</descriptor>
-                            </descriptors>
-                            <tarLongFileMode>posix</tarLongFileMode>
-                            <appendAssemblyId>false</appendAssemblyId>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-artemis</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>apache-artemis</artifactId>
-                                    <classifier>bin</classifier>
-                                    <type>tar.gz</type>
-                                    <outputDirectory>target/dependencies/artemis</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>release</id>
-            <properties>
-                <timestamp>latest</timestamp>
-            </properties>
-        </profile>
-        <profile>
-            <id>docker</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>${docker.account}/kapua-broker-artemis</name>
-                                    <build>
-                                        <assembly>
-                                            <descriptor>${project.basedir}/descriptors/kapua-broker-artemis.xml</descriptor>
-                                        </assembly>
-                                        <dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
-                                        <filter>@</filter>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

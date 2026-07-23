@@ -766,7 +766,7 @@ public class DockerSteps {
                 MESSAGE_BROKER_PORT_WS_HOST,
                 MESSAGE_BROKER_PORT_DEBUG_CONTAINER,
                 MESSAGE_BROKER_PORT_DEBUG_HOST,
-                "kapua/" + BROKER_IMAGE + ":" + KAPUA_VERSION);
+                "eclipsekapua/" + BROKER_IMAGE + ":" + KAPUA_VERSION);
         ContainerCreation mbContainerCreation = DockerUtil.getDockerClient().createContainer(mbConfig, name);
         String containerId = mbContainerCreation.id();
 
@@ -1015,7 +1015,7 @@ public class DockerSteps {
      * @param debugPort     debug port on docker
      * @param debugHostPort debug port on docker host
      *                      //     * @param brokerInternalDebugPort
-     * @param dockerImage   full name of image (e.g. "kapua/kapua-broker:" + version)
+     * @param dockerImage   full name of image (e.g. "eclipsekapua/kapua-broker:" + version)
      * @return Container configuration for specific boroker instance
      */
     private ContainerConfig getBrokerContainerConfig(String brokerIp,
@@ -1103,7 +1103,7 @@ public class DockerSteps {
 //                        "H2_WEB_OPTS=-web -webAllowOthers -webPort 8181",
                         "DB_PORT_3306_TCP_PORT=3306"
                 )
-                .image("kapua/kapua-sql:" + KAPUA_VERSION)
+                .image("eclipsekapua/kapua-sql:" + KAPUA_VERSION)
                 .build();
     }
 
@@ -1130,7 +1130,7 @@ public class DockerSteps {
                         "CORS_ENDPOINTS_REFRESH_INTERVAL=" + corsEndpointRefreshInterval,
                         "SWAGGER=true"
                 )
-                .image("kapua/" + API_IMAGE + ":" + KAPUA_VERSION)
+                .image("eclipsekapua/" + API_IMAGE + ":" + KAPUA_VERSION)
                 .build();
     }
 
@@ -1189,7 +1189,7 @@ public class DockerSteps {
                 .hostConfig(hostConfig)
                 .exposedPorts(ports)
                 .env(envVars)
-                .image("kapua/" + imageName + ":" + KAPUA_VERSION)
+                .image("eclipsekapua/" + imageName + ":" + KAPUA_VERSION)
                 .build();
     }
 
@@ -1234,7 +1234,7 @@ public class DockerSteps {
         return ContainerConfig.builder()
                 .hostConfig(hostConfig)
                 .exposedPorts(String.valueOf(brokerPort))
-                .image("kapua/kapua-events-broker:" + KAPUA_VERSION)
+                .image("eclipsekapua/kapua-events-broker:" + KAPUA_VERSION)
                 .build();
     }
 
@@ -1254,7 +1254,7 @@ public class DockerSteps {
                 .env(
                         "CRYPTO_SECRET_KEY=kapuaTestsKey!!!"
                 )
-                .image("kapua/kapua-job-engine:" + KAPUA_VERSION)
+                .image("eclipsekapua/kapua-job-engine:" + KAPUA_VERSION)
                 .build();
     }
 

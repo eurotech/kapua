@@ -27,14 +27,9 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>apache-artemis</artifactId>
-            <classifier>bin</classifier>
-            <type>tar.gz</type>
-        </dependency>
-    </dependencies>
+    <properties>
+        <docker.image.name>kapua-events-broker</docker.image.name>
+    </properties>
 
     <build>
         <plugins>
@@ -112,13 +107,10 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${docker.account}/kapua-events-broker</name>
                                     <build>
                                         <assembly>
                                             <descriptor>${project.basedir}/descriptors/kapua-events-broker.xml</descriptor>
                                         </assembly>
-                                        <dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
-                                        <filter>@</filter>
                                     </build>
                                 </image>
                             </images>
@@ -128,4 +120,13 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>apache-artemis</artifactId>
+            <classifier>bin</classifier>
+            <type>tar.gz</type>
+        </dependency>
+    </dependencies>
 </project>

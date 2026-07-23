@@ -1,7 +1,7 @@
 services:
   db:
     container_name: db
-    image: kapua/kapua-sql:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-sql:${IMAGE_VERSION}
     ports:
       - "3306:3306"
   es:
@@ -18,11 +18,11 @@ services:
       - transport.tcp.connect_timeout=30s
   events-broker:
     container_name: events-broker
-    image: kapua/kapua-events-broker:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-events-broker:${IMAGE_VERSION}
     ports:
       - "5672:5672"
   message-broker:
-    image: kapua/kapua-broker-artemis:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-broker-artemis:${IMAGE_VERSION}
     container_name: message-broker
     expose:
       - 1893
@@ -50,7 +50,7 @@ services:
       - DB_RESOLVER
       - DB_DRIVER
   service-authentication:
-    image: kapua/kapua-service-authentication:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-service-authentication:${IMAGE_VERSION}
     container_name: service-auth
     ports:
       - 8100:8080
@@ -72,7 +72,7 @@ services:
       - DB_DRIVER
   consumer-telemetry:
     container_name: consumer-telemetry
-    image: kapua/kapua-consumer-telemetry:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-consumer-telemetry:${IMAGE_VERSION}
     ports:
       - "8090:8080"
     depends_on:
@@ -97,7 +97,7 @@ services:
       - DB_DRIVER
   consumer-lifecycle:
     container_name: consumer-lifecycle
-    image: kapua/kapua-consumer-lifecycle:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-consumer-lifecycle:${IMAGE_VERSION}
     ports:
       - "8091:8080"
     depends_on:
@@ -121,7 +121,7 @@ services:
       - DB_DRIVER
   kapua-console:
     container_name: kapua-console
-    image: kapua/kapua-console:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-console:${IMAGE_VERSION}
     ports:
       - "8080:8080"
     depends_on:
@@ -146,7 +146,7 @@ services:
       - DB_DRIVER
   kapua-api:
     container_name: kapua-api
-    image: kapua/kapua-api:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-api:${IMAGE_VERSION}
     ports:
       - "8081:8080"
       - "8444:8443"
@@ -179,7 +179,7 @@ services:
       - DB_DRIVER
   job-engine:
     container_name: job-engine
-    image: kapua/kapua-job-engine:${IMAGE_VERSION}
+    image: eclipsekapua/kapua-job-engine:${IMAGE_VERSION}
     expose:
       - 8080
     depends_on:

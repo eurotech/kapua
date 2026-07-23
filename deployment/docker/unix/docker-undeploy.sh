@@ -28,7 +28,7 @@ docker_undeploy() {
       COMPOSE_FILES+=(-f "${SCRIPT_DIR}/../compose/extras/docker-compose.es-dev.yml")
     fi
 
-    if [[ "$(docker ps | grep kapua/kapua-keycloak)" != "" ]] ; then
+    if [[ "$(docker ps | grep eclipsekapua/kapua-keycloak)" != "" ]] ; then
       COMPOSE_FILES+=(-f "${SCRIPT_DIR}/../compose/sso/docker-compose.keycloak.yml")
     fi
 

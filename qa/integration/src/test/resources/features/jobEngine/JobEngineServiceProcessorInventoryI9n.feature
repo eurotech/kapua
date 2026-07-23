@@ -44,7 +44,7 @@ Feature: Job Engine Service - Inventory Step Processors
     And I add job step to job with name "Test Step - Container Start" and with selected job step definition and properties
       | name     | type              | value |
       | containerName | java.lang.String  | db    |
-      | containerVersion | java.lang.String  | kapua/kapua-sql:latest    |
+      | containerVersion | java.lang.String  | eclipsekapua/kapua-sql:latest    |
       | timeout  | java.lang.Long    | 5000  |
     When I start a job
     And I wait job to finish its execution up to 10s
@@ -65,7 +65,7 @@ Feature: Job Engine Service - Inventory Step Processors
     And I add job step to job with name "Test Step - Container Stop" and with selected job step definition and properties
       | name     | type              | value |
       | containerName | java.lang.String  | db    |
-      | containerVersion | java.lang.String  | kapua/kapua-sql:latest    |
+      | containerVersion | java.lang.String  | eclipsekapua/kapua-sql:latest    |
       | timeout  | java.lang.Long    | 5000  |
     When I start a job
     And I wait job to finish its execution up to 10s

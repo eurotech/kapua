@@ -142,7 +142,7 @@ Feature: Device Management Inventory Service Tests
     And Inventory Containers are received
     And Inventory Containers are 11
     And Inventory Containers has Container named "db" is present
-    And Inventory Containers has Container named "db" has version "kapua/kapua-sql:latest"
+    And Inventory Containers has Container named "db" has version "eclipsekapua/kapua-sql:latest"
     And Inventory Containers has Container named "db" has type "DOCKER"
     And Inventory Containers has Container named "es" is present
     And Inventory Containers has Container named "es" has version "docker.elastic.co/elasticsearch/elasticsearch:7.8.1"
@@ -162,14 +162,14 @@ Feature: Device Management Inventory Service Tests
     And Inventory Containers are received
     And Inventory Containers are 11
     And Inventory Containers has Container named "db" is present
-    And Inventory Containers has Container named "db" has version "kapua/kapua-sql:latest"
+    And Inventory Containers has Container named "db" has version "eclipsekapua/kapua-sql:latest"
     And Inventory Containers has Container named "db" has type "DOCKER"
     And I start Inventory Container named "db"
     And Inventory Containers are requested
     And Inventory Containers are received
     And Inventory Containers are 11
     And Inventory Containers has Container named "db" is present
-    And Inventory Containers has Container named "db" has version "kapua/kapua-sql:latest"
+    And Inventory Containers has Container named "db" has version "eclipsekapua/kapua-sql:latest"
     And Inventory Containers has Container named "db" has type "DOCKER"
     Then KuraMock is disconnected
     And I logout
@@ -186,14 +186,14 @@ Feature: Device Management Inventory Service Tests
     And Inventory Containers are received
     And Inventory Containers are 11
     And Inventory Containers has Container named "db" is present
-    And Inventory Containers has Container named "db" has version "kapua/kapua-sql:latest"
+    And Inventory Containers has Container named "db" has version "eclipsekapua/kapua-sql:latest"
     And Inventory Containers has Container named "db" has type "DOCKER"
     And I stop Inventory Container named "db"
     And Inventory Containers are requested
     And Inventory Containers are received
     And Inventory Containers are 11
     And Inventory Containers has Container named "db" is present
-    And Inventory Containers has Container named "db" has version "kapua/kapua-sql:latest"
+    And Inventory Containers has Container named "db" has version "eclipsekapua/kapua-sql:latest"
     And Inventory Containers has Container named "db" has type "DOCKER"
     Then KuraMock is disconnected
     And I logout
