@@ -440,7 +440,7 @@ public class RestElasticsearchClientProvider implements ElasticsearchClientProvi
         this.init();
         // To evenly distribute requests among clients, calculate the index to return in a round robin style.
         int clientIndex = Math.abs(nextClientIndex.getAndAdd(1) % restElasticsearchClientWrappers.size());
-        LOG.info("Elasticsearch client provider pool get ES client: assign index {} in a pool of {}", clientIndex, restElasticsearchClientWrappers.size());
+        LOG.debug("Elasticsearch client provider pool get ES client: assign index {} in a pool of {}", clientIndex, restElasticsearchClientWrappers.size());
         RestElasticsearchClientWrapper clientWrapper = restElasticsearchClientWrappers.get(clientIndex);
         return clientWrapper;
     }
