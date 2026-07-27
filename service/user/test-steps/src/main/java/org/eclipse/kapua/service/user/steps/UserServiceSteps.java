@@ -22,6 +22,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.eclipse.kapua.KapuaException;
+import org.eclipse.kapua.KapuaRuntimeException;
 import org.eclipse.kapua.commons.model.id.KapuaEid;
 import org.eclipse.kapua.commons.security.KapuaSecurityUtils;
 import org.eclipse.kapua.locator.KapuaLocator;
@@ -76,6 +77,8 @@ import org.eclipse.kapua.service.user.UserListResult;
 import org.eclipse.kapua.service.user.UserQuery;
 import org.eclipse.kapua.service.user.UserService;
 import org.eclipse.kapua.service.user.UserStatus;
+import org.eclipse.kapua.plugin.sso.openid.OpenIDLocator;
+import org.eclipse.kapua.service.user.UserType;
 import org.junit.Assert;
 
 import javax.inject.Inject;
@@ -91,6 +94,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Implementation of Gherkin steps used in user test scenarios.
@@ -109,6 +114,7 @@ public class UserServiceSteps extends TestBase {
     private static final String LAST_FOUND_ACCESS_PERMISSION = "LastFoundAccessPermission";
     private static final String LAST_PERMISSION_ADDED_TO_USER = "LastPermissionAddedToUser";
     private static final String FOUND_USERS = "FoundUsers";
+    private StubOpenIDService stubOpenIDService;
 
     /**
      * User service by locator.
@@ -156,6 +162,10 @@ public class UserServiceSteps extends TestBase {
         credentialsFactory = locator.getFactory(CredentialsFactory.class);
         accessPermissionService = locator.getService(AccessPermissionService.class);
         accessPermissionFactory = locator.getFactory(AccessPermissionFactory.class);
+        OpenIDLocator openIDLocator = locator.getComponent(OpenIDLocator.class);
+        if (openIDLocator.getService() instanceof StubOpenIDService) { //only in case the test is actually using the stubOpenIDService, otherwise it will be the real OpenIDService
+            stubOpenIDService = (StubOpenIDService) openIDLocator.getService(); //obtain the custom-test-injected stubOpenIdService
+        }
     }
 
     @Before
@@ -180,9 +190,15 @@ public class UserServiceSteps extends TestBase {
 
     @When("I create user")
     public void createUser() throws Exception {
-        stepData.remove("User");
-        User user = userService.create((UserCreator) stepData.get(USER_CREATOR));
-        stepData.put("User", user);
+        try {
+            primeException();
+            stepData.remove("User");
+            User user = userService.create((UserCreator) stepData.get(USER_CREATOR));
+            stepData.put("User", user);
+        }
+        catch (KapuaException | KapuaRuntimeException ex) {
+            verifyException(ex);
+        }
     }
 
     @Given("An invalid user")
@@ -715,6 +731,121 @@ public class UserServiceSteps extends TestBase {
     @Then("I logout")
     public void logout() throws KapuaException {
         authenticationService.logout();
+    }
+
+    // ****************************
+    // * SSO Stub control steps   *
+    // ****************************
+
+    @Given("brokering is enabled for current account with domains {string}")
+    public void brokeringEnabledWithDomains(String domainsStr) {
+        List<String> domains = Arrays.asList(domainsStr.split(","));
+        stubOpenIDService.setDefaultSSOData(SSODataTest.brokeringEnabled(domains));
+    }
+
+    @Given("brokering is enabled with no domains for current account")
+    public void brokeringEnabledWithNoDomains() {
+        stubOpenIDService.setDefaultSSOData(SSODataTest.brokeringEnabled(Collections.emptyList()));
+    }
+
+    @Given("brokering is enabled with null domains for current account")
+    public void brokeringEnabledWithNullDomains() {
+        stubOpenIDService.setDefaultSSOData(SSODataTest.brokeringEnabled(null));
+    }
+
+    @Given("brokering is disabled for current account")
+    public void brokeringDisabled() {
+        stubOpenIDService.setDefaultSSOData(SSODataTest.brokeringDisabled());
+    }
+
+    @Given("brokering has connection issues for current account")
+    public void brokeringWithConnectionIssues() {
+        stubOpenIDService.setDefaultSSOData(SSODataTest.withConnectionIssues());
+    }
+
+    @Given("SSO data is null for current account")
+    public void ssoDataIsNull() {
+        stubOpenIDService.setDefaultSSOData(null);
+    }
+
+    @Given("I reset SSO stub")
+    public void resetSSOStub() {
+        stubOpenIDService.reset();
+    }
+
+    // ****************************
+    // * External user steps      *
+    // ****************************
+
+    @Given("External user with name {string} and external username {string} in scope with id {int}")
+    public void createExternalUserWithExternalUsername(String userName, String externalUsername, int scopeId) {
+        KapuaEid scpId = new KapuaEid(BigInteger.valueOf(scopeId));
+        UserCreator uc = userFactory.newCreator(scpId, userName);
+        uc.setUserType(UserType.EXTERNAL);
+        uc.setExternalUsername(externalUsername);
+        uc.setStatus(UserStatus.ENABLED);
+        stepData.put(USER_CREATOR, uc);
+    }
+
+    @Given("External user with name {string} and external id {string} in scope with id {int}")
+    public void createExternalUserWithExternalId(String userName, String externalId, int scopeId) {
+        KapuaEid scpId = new KapuaEid(BigInteger.valueOf(scopeId));
+        UserCreator uc = userFactory.newCreator(scpId, userName);
+        uc.setUserType(UserType.EXTERNAL);
+        uc.setExternalId(externalId);
+        uc.setStatus(UserStatus.ENABLED);
+        stepData.put(USER_CREATOR, uc);
+    }
+
+    @Given("External user with name {string}, external username {string} and external id {string} in scope with id {int}")
+    public void createExternalUserWithBothIdentifiers(String userName, String externalUsername, String externalId, int scopeId) {
+        KapuaEid scpId = new KapuaEid(BigInteger.valueOf(scopeId));
+        UserCreator uc = userFactory.newCreator(scpId, userName);
+        uc.setUserType(UserType.EXTERNAL);
+        uc.setExternalUsername(externalUsername);
+        uc.setExternalId(externalId);
+        uc.setStatus(UserStatus.ENABLED);
+        stepData.put(USER_CREATOR, uc);
+    }
+
+    @Given("I update external user username to {string}")
+    public void updateExternalUserUsername(String externalUsername) throws Exception {
+        User user = (User) stepData.get("User");
+        user.setExternalUsername(externalUsername);
+        try {
+            primeException();
+            user = userService.update(user);
+            stepData.put("User", user);
+        } catch (KapuaException ke) {
+            verifyException(ke);
+        }
+    }
+
+    @Given("I update external user external id to {string}")
+    public void updateExternalUserExternalId(String externalId) throws Exception {
+        User user = (User) stepData.get("User");
+        user.setExternalId(externalId);
+        try {
+            primeException();
+            user = userService.update(user);
+            stepData.put("User", user);
+        } catch (KapuaException ke) {
+            verifyException(ke);
+        }
+    }
+
+    @Then("I find external user with external username {string}")
+    public void findExternalUserWithExternalUsername(String externalUsername) throws Exception {
+        User user = (User) stepData.get("User");
+        Assert.assertNotNull(user);
+        Assert.assertEquals(externalUsername, user.getExternalUsername());
+    }
+
+    @Then("I find external user with external id {string}")
+    public void findExternalUserWithExternalId(String externalId) throws Exception {
+        User user = (User) stepData.get("User");
+        Assert.assertNotNull(user);
+        Assert.assertEquals(externalId, user.getExternalId());
     }
 
     // *******************

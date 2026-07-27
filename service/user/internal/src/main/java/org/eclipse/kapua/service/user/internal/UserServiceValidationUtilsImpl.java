@@ -21,6 +21,7 @@ import org.eclipse.kapua.KapuaDuplicateNameInAnotherAccountError;
 import org.eclipse.kapua.KapuaEntityNotFoundException;
 import org.eclipse.kapua.KapuaException;
 import org.eclipse.kapua.KapuaIllegalArgumentException;
+import org.eclipse.kapua.KapuaIllegalStateException;
 import org.eclipse.kapua.commons.configuration.ServiceConfigurationManager;
 import org.eclipse.kapua.commons.model.domains.Domains;
 import org.eclipse.kapua.commons.security.KapuaSecurityUtils;
@@ -137,13 +138,16 @@ public final class UserServiceValidationUtilsImpl implements UserServiceValidati
         if (userCreator.getUserType() == UserType.EXTERNAL) {
             if (openIDSetting.getBoolean(OpenIDSettingKeys.SSO_OPENID_BROKERING_ENABLED, false)) {
                 SSOData ssoDataAccount = openIDService.retrieveSSODataForAccount(userCreator.getScopeId());
+                if (ssoDataAccount == null || ssoDataAccount.getBrokeringApiConnectionIssues()) {
+                    throw new KapuaIllegalStateException("the SSO data for the account cannot be retrieved - Connection issues to openID provider");
+                }
                 if (ssoDataAccount.getAccountSupportsBrokering()) {
-                    validateExternalUserOnSSOBrokeringEnabled(ssoDataAccount, userCreator);
+                    validateExternalUserOnSSOBrokeringEnabled(ssoDataAccount, userCreator.getExternalUsername(), userCreator.getExternalId(), "userCreator");
                 } else {
-                    validateExternalUserOnSSOBrokeringDisabled(userCreator);
+                    validateExternalUserOnSSOBrokeringDisabled(userCreator.getExternalUsername(), userCreator.getExternalId(), "userCreator");
                 }
             } else {
-                validateExternalUserOnSSOBrokeringDisabled(userCreator);
+                validateExternalUserOnSSOBrokeringDisabled(userCreator.getExternalUsername(), userCreator.getExternalId(), "userCreator");
             }
         } else if (userCreator.getUserType() == UserType.INTERNAL) {
             ArgumentValidator.isEmptyOrNull(userCreator.getExternalId(), "userCreator.externalId");
@@ -216,12 +220,12 @@ public final class UserServiceValidationUtilsImpl implements UserServiceValidati
             if (openIDSetting.getBoolean(OpenIDSettingKeys.SSO_OPENID_BROKERING_ENABLED, false)) {
                 SSOData ssoDataAccount = openIDService.retrieveSSODataForAccount(user.getScopeId());
                 if (ssoDataAccount.getAccountSupportsBrokering()) {
-                    validateExternalUserOnSSOBrokeringEnabledOnEdit(ssoDataAccount, user);
+                    validateExternalUserOnSSOBrokeringEnabled(ssoDataAccount, user.getExternalUsername(), user.getExternalId(), "user");
                 } else {
-                    validateExternalUserOnSSOBrokeringDisabledOnEdit(user);
+                    validateExternalUserOnSSOBrokeringDisabled(user.getExternalUsername(), user.getExternalId(), "user");
                 }
             } else {
-                validateExternalUserOnSSOBrokeringDisabledOnEdit(user);
+                validateExternalUserOnSSOBrokeringDisabled(user.getExternalUsername(), user.getExternalId(), "user");
             }
         } else if (user.getUserType() == UserType.INTERNAL) {
             ArgumentValidator.isEmptyOrNull(user.getExternalId(), "user.externalId");
@@ -457,50 +461,28 @@ public final class UserServiceValidationUtilsImpl implements UserServiceValidati
         }
     }
 
-    private void validateExternalUserOnSSOBrokeringDisabled(UserCreator userCreator) throws KapuaException {
-        if (userCreator.getExternalId() != null) {
-            ArgumentValidator.notEmptyOrNull(userCreator.getExternalId(), "userCreator.externalId");
-            ArgumentValidator.lengthRange(userCreator.getExternalId(), 3, 255, "userCreator.externalId");
+    private void validateExternalUserOnSSOBrokeringDisabled(String externalUsername, String externalId, String prefixTypeUser) throws KapuaException {
+        if (externalId != null) {
+            ArgumentValidator.notEmptyOrNull(externalId, prefixTypeUser + ".externalId");
+            ArgumentValidator.lengthRange(externalId, 3, 255, prefixTypeUser + ".externalId");
         } else {
-            ArgumentValidator.notEmptyOrNull(userCreator.getExternalUsername(), "userCreator.externalUsername");
-            ArgumentValidator.lengthRange(userCreator.getExternalUsername(), 3, 255, "userCreator.externalUsername");
+            ArgumentValidator.notEmptyOrNull(externalUsername, prefixTypeUser + ".externalUsername");
+            ArgumentValidator.lengthRange(externalUsername, 3, 255, prefixTypeUser + ".externalUsername");
         }
     }
 
-    private void validateExternalUserOnSSOBrokeringEnabled(SSOData ssoDataAccount, UserCreator userCreator) throws KapuaException {
-        ArgumentValidator.notEmptyOrNull(userCreator.getExternalUsername(), "userCreator.externalUsername");
-        ArgumentValidator.isEmptyOrNull(userCreator.getExternalId(), "userCreator.externalId");
-        ArgumentValidator.match(userCreator.getExternalUsername(), CommonsValidationRegex.EMAIL_REGEXP, "userCreator.externalUsername"); //For the current brokering implementation, we expect an email as the external user "key"
+    private void validateExternalUserOnSSOBrokeringEnabled(SSOData ssoDataAccount, String externalUsername, String externalId, String prefixTypeUser) throws KapuaException {
+        ArgumentValidator.notEmptyOrNull(externalUsername, prefixTypeUser + ".externalUsername");
+        ArgumentValidator.isEmptyOrNull(externalId, prefixTypeUser + ".externalId");
+        ArgumentValidator.match(externalUsername, CommonsValidationRegex.EMAIL_REGEXP, prefixTypeUser + ".externalUsername"); //For the current brokering implementation, we expect an email as the external user "key"
         List<String> domainsThisAccount = ssoDataAccount.getCompanyDomainNames();
-        if (domainsThisAccount != null && !domainsThisAccount.isEmpty()) {
-            String userMailDomain = userCreator.getExternalUsername().split("@")[1];
-            if (!domainsThisAccount.contains(userMailDomain)) {
-                throw new KapuaIllegalArgumentException("userCreator.externalUsername", userCreator.getExternalUsername());
-            }
+        if (domainsThisAccount == null || domainsThisAccount.isEmpty()) { //if we don't have domains for this org. it means org. is not configured or defined in OpenID provider
+            throw new KapuaIllegalArgumentException(prefixTypeUser + ".externalUsername", externalUsername);
         }
-    }
-
-    //TODO: THIS METHOD HAS HEAVY REDUNDANT CODE WITH ABOVE - MEANT TO BE TEMPORARY AND REFACTORED ASAP
-    private void validateExternalUserOnSSOBrokeringDisabledOnEdit(User user) throws KapuaException {
-        if (user.getExternalId() != null) {
-            ArgumentValidator.notEmptyOrNull(user.getExternalId(), "user.externalId");
-            ArgumentValidator.lengthRange(user.getExternalId(), 3, 255, "user.externalId");
-        } else {
-            ArgumentValidator.notEmptyOrNull(user.getExternalUsername(), "user.externalUsername");
-            ArgumentValidator.lengthRange(user.getExternalUsername(), 3, 255, "user.externalUsername");
-        }
-    }
-
-    //TODO: THIS METHOD HAS HEAVY REDUNDANT CODE WITH ABOVE - MEANT TO BE TEMPORARY AND REFACTORED ASAP
-    private void validateExternalUserOnSSOBrokeringEnabledOnEdit(SSOData ssoDataAccount, User user) throws KapuaException {
-        ArgumentValidator.notEmptyOrNull(user.getExternalUsername(), "user.externalUsername");
-        ArgumentValidator.isEmptyOrNull(user.getExternalId(), "user.externalId");
-        ArgumentValidator.match(user.getExternalUsername(), CommonsValidationRegex.EMAIL_REGEXP, "user.externalUsername"); //For the current brokering implementation, we expect an email as the external user "key"
-        List<String> domainsThisAccount = ssoDataAccount.getCompanyDomainNames();
-        if (domainsThisAccount != null && !domainsThisAccount.isEmpty()) {
-            String userMailDomain = user.getExternalUsername().split("@")[1];
+        else {
+            String userMailDomain = externalUsername.split("@")[1];
             if (!domainsThisAccount.contains(userMailDomain)) {
-                throw new KapuaIllegalArgumentException("user.externalUsername", user.getExternalUsername());
+                throw new KapuaIllegalArgumentException(prefixTypeUser + ".externalUsername", externalUsername);
             }
         }
     }
