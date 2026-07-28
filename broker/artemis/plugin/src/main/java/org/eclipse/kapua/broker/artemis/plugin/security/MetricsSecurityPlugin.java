@@ -50,6 +50,10 @@ public class MetricsSecurityPlugin {
             String metricModuleName) {
         this.metricsService = metricsService;
         this.metricModuleName = metricModuleName;
+        //leave the initialization of these metrics here. Do not move in the init method.
+        processedEvent = metricsService.getCounter(metricModuleName, SECURITY_PLUGIN_EVENT, "processed");
+        dequeuedEvent = metricsService.getCounter(metricModuleName, SECURITY_PLUGIN_EVENT, "dequeued");
+        enqueuedEvent = metricsService.getCounter(metricModuleName, SECURITY_PLUGIN_EVENT, "enqueued");
     }
 
     public void init(ActiveMQServer server, Gauge<Integer> mapSize, Gauge<Integer> mapByClientSize, Gauge<Integer> aclSize, Gauge<Integer> activeConnection) throws KapuaException {
@@ -61,10 +65,6 @@ public class MetricsSecurityPlugin {
         metricsService.registerGauge(() -> server.getTotalMessageCount(), metricModuleName, LoginMetric.COMPONENT_LOGIN, TOTAL_MESSAGE, MetricsLabel.SIZE);
         metricsService.registerGauge(() -> server.getTotalMessagesAcknowledged(), metricModuleName, LoginMetric.COMPONENT_LOGIN, TOTAL_MESSAGE_ACKNOWLEDGED, MetricsLabel.SIZE);
         metricsService.registerGauge(() -> server.getTotalMessagesAdded(), metricModuleName, LoginMetric.COMPONENT_LOGIN, TOTAL_MESSAGE_ADDED, MetricsLabel.SIZE);
-
-        processedEvent = metricsService.getCounter(metricModuleName, SECURITY_PLUGIN_EVENT, "processed");
-        dequeuedEvent = metricsService.getCounter(metricModuleName, SECURITY_PLUGIN_EVENT, "dequeued");
-        enqueuedEvent = metricsService.getCounter(metricModuleName, SECURITY_PLUGIN_EVENT, "enqueued");
     }
 
     public Counter getProcessedEvent() {

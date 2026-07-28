@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021, 2022 Eurotech and/or its affiliates and others
+ * Copyright (c) 2021, 2026 Eurotech and/or its affiliates and others
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -23,15 +23,17 @@ public class ConnectionInfo {
     private String connectionId;
     private String clientId;
     private String connectorName;
+    private boolean device;
     private String transportProtocol;
     private String clientIp;
     private Boolean sslEnabled;
     private Certificate[] certificates;
 
-    public ConnectionInfo(String connectionId, String clientId, String clientIp, String connectorName, String transportProtocol, String sslEnabledStr, Certificate[] clientCertificates) {
+    public ConnectionInfo(String connectionId, String clientId, String clientIp, String connectorName, boolean device, String transportProtocol, String sslEnabledStr, Certificate[] clientCertificates) {
         this.connectionId = connectionId;
         this.clientId = clientId;
         this.connectorName = connectorName;
+        this.device = device;
         this.transportProtocol = transportProtocol;
         this.clientIp = clientIp;
         certificates = clientCertificates;
@@ -48,6 +50,10 @@ public class ConnectionInfo {
 
     public String getConnectorName() {
         return connectorName;
+    }
+
+    public boolean isDevice() {
+        return device;
     }
 
     public String getTransportProtocol() {

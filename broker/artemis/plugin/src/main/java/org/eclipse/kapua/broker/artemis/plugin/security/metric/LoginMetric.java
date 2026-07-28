@@ -14,8 +14,12 @@ package org.eclipse.kapua.broker.artemis.plugin.security.metric;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Timer;
+
+import org.eclipse.kapua.KapuaException;
 import org.eclipse.kapua.commons.metric.MetricsLabel;
 import org.eclipse.kapua.commons.metric.MetricsService;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +32,8 @@ public class LoginMetric {
     //action
     private static final String DISCONNECT = "disconnect";
 
+    private static final String CONNECTING_DEVICES = "connecting_devices";
+    private static final String CONNECTED_DEVICES = "connected_devices";
     private static final String INTERNAL_CONNECTOR = "internal_connector";
     private static final String EXTERNAL_CONNECTOR = "external_connector";
     private static final String AUTHENTICATE_FROM_CACHE = "authenticate_from_cache";
@@ -44,6 +50,8 @@ public class LoginMetric {
     private static final String ADD_CONNECTION = "add_connection";
     private static final String REMOVE_CONNECTION = "remove_connection";
 
+    private final AtomicLong connectingDevice;
+    private final AtomicLong connectedDevice;
     private final ActionMetric externalConnector;
     private final ActionMetric internalConnector;
     private final Counter authenticateFromCache;
@@ -65,8 +73,12 @@ public class LoginMetric {
     @Inject
     public LoginMetric(MetricsService metricsService,
                        @Named("metricModuleName")
-                       String metricModuleName) {
+                       String metricModuleName) throws KapuaException {
         // login by connectors
+        connectedDevice = new AtomicLong();
+        metricsService.registerGauge(() -> connectedDevice.get(), COMPONENT_LOGIN, CONNECTED_DEVICES);
+        connectingDevice = new AtomicLong();
+        metricsService.registerGauge(() -> connectingDevice.get(), COMPONENT_LOGIN, CONNECTING_DEVICES);
         externalConnector = new ActionMetric(metricsService, metricModuleName, COMPONENT_LOGIN, EXTERNAL_CONNECTOR);
         authenticateFromCache = metricsService.getCounter(metricModuleName, COMPONENT_LOGIN, AUTHENTICATE_FROM_CACHE);
         internalConnector = new ActionMetric(metricsService, metricModuleName, COMPONENT_LOGIN, INTERNAL_CONNECTOR);
@@ -85,6 +97,14 @@ public class LoginMetric {
         // login time
         externalAddConnection = metricsService.getTimer(metricModuleName, COMPONENT_LOGIN, ADD_CONNECTION, MetricsLabel.TIME, MetricsLabel.SECONDS);
         removeConnection = metricsService.getTimer(metricModuleName, COMPONENT_LOGIN, REMOVE_CONNECTION, MetricsLabel.TIME, MetricsLabel.SECONDS);
+    }
+
+    public AtomicLong getConnectingDevice() {
+        return connectingDevice;
+    }
+
+    public AtomicLong getConnectedDevice() {
+        return connectedDevice;
     }
 
     public Counter getAuthenticateFromCache() {

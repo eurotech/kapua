@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Helper class to handle acceptor lifecycle (add/remove acceptors on demand)
@@ -59,9 +60,23 @@ public class AcceptorHandler {
      * @throws Exception
      */
     public String addAcceptor(String name, String uri) throws Exception {
+        logger.info("adding acceptor {}...", name);
         String previousAcceptor = definedAcceptors.put(name, uri);
         syncAcceptors();
+        logger.info("adding acceptor {}... DONE", name);
         return previousAcceptor;
+    }
+
+    /**
+     * Pause acceptor
+     *
+     * @param name acceptor name
+     * @throws Exception
+     */
+    public void pauseAcceptor(String name) throws Exception {
+        logger.info("Pause acceptor {}...", name);
+        server.getRemotingService().getAcceptor(name).pause();
+        logger.info("Pause acceptor {}... DONE", name);
     }
 
     /**
@@ -72,9 +87,17 @@ public class AcceptorHandler {
      * @throws Exception
      */
     public String removeAcceptor(String name) throws Exception {
+        logger.info("removing acceptor {}...", name);
         String currentAcceptor = definedAcceptors.remove(name);
         syncAcceptors();
+        logger.info("removing acceptor {}... DONE", name);
         return currentAcceptor;
+    }
+
+    public List<String> getAcceptorNames() {
+        return definedAcceptors.keySet()
+            .stream()
+            .collect(Collectors.toList());
     }
 
     /**

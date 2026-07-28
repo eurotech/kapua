@@ -14,6 +14,8 @@ package org.eclipse.kapua.broker.artemis;
 
 import com.google.inject.Provides;
 import org.eclipse.kapua.KapuaException;
+import org.eclipse.kapua.broker.artemis.plugin.security.MetricsSecurityPlugin;
+import org.eclipse.kapua.broker.artemis.plugin.security.event.BrokerEventHandler;
 import org.eclipse.kapua.broker.artemis.plugin.security.setting.BrokerSetting;
 import org.eclipse.kapua.broker.artemis.plugin.utils.BrokerHostResolver;
 import org.eclipse.kapua.broker.artemis.plugin.utils.BrokerIdResolver;
@@ -50,6 +52,12 @@ public class AppModule extends AbstractKapuaModule {
     @Named("metricModuleName")
     String metricModuleName() {
         return "broker-telemetry";
+    }
+
+    @Provides
+    @Singleton
+    public BrokerEventHandler brokerEventHandler(MetricsSecurityPlugin metricsSecurityPlugin) {
+        return new BrokerEventHandler("ServerPlugin", 0l, 10000l, metricsSecurityPlugin);
     }
 
     @Provides
