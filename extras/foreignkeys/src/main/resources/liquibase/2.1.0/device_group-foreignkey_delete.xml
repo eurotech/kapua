@@ -15,18 +15,33 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd"
-                   logicalFilePath="KapuaDB/changelog-foreignkeys-1.2.0.xml">
+                   logicalFilePath="KapuaDB/changelog-foreignkeys-2.1.0.xml">
 
-    <changeSet id="changelog-user_group-foreignkey-2.0.0" author="eurotech">
+    <changeSet id="changelog-device_group-foreignkey-2.1.0-cleanup" author="eurotech">
+
         <preConditions onFail="CONTINUE">
             <and>
-                <tableExists tableName="usr_user_group"/>
+                <tableExists tableName="dvc_device_group"/>
                 <tableExists tableName="athz_group"/>
             </and>
         </preConditions>
 
-        <addForeignKeyConstraint constraintName="fk_dvc_user_group_group_id"
-                                 baseTableName="usr_user_group"
+        <delete tableName="dvc_device_group">
+            <where>group_id NOT IN (SELECT id FROM athz_group)</where>
+        </delete>
+    </changeSet>
+
+
+    <changeSet id="changelog-device_group-foreignkey-2.1.0" author="eurotech">
+        <preConditions onFail="CONTINUE">
+            <and>
+                <tableExists tableName="dvc_device_group"/>
+                <tableExists tableName="athz_group"/>
+            </and>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_dvc_device_group_group_id"
+                                 baseTableName="dvc_device_group"
                                  baseColumnNames="group_id"
                                  referencedTableName="athz_group"
                                  referencedColumnNames="id"
