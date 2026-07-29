@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2020, 2022 Eurotech and/or its affiliates and others
+    Copyright (c) 2026, 2026 Eurotech and/or its affiliates and others
 
     This program and the accompanying materials are made
     available under the terms of the Eclipse Public License 2.0
@@ -15,7 +15,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd"
-                   logicalFilePath="KapuaDB/changelog-foreignkeys-2.0.0.xml">
+                   logicalFilePath="KapuaDB/changelog-foreignkeys-2.1.0.xml">
 
     <include relativeToChangelogFile="true" file="./device_group-foreignkey_delete.xml"/>
     <include relativeToChangelogFile="true" file="./user_group-foreignkey_delete.xml"/>
