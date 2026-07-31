@@ -20,7 +20,7 @@ paths:
       operationId: serviceConfigurationRead
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './serviceConfiguration.yaml#/components/parameters/componentId'
+        - $ref: '../openapi.yaml#/components/parameters/componentId'
       responses:
         200:
           description: The Configuration details of a single Service
@@ -45,7 +45,7 @@ paths:
       operationId: serviceConfigurationWrite
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './serviceConfiguration.yaml#/components/parameters/componentId'
+        - $ref: '../openapi.yaml#/components/parameters/componentId'
       requestBody:
         content:
           application/json:

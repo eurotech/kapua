@@ -23,7 +23,7 @@ paths:
       operationId: deprecatedAccountGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accounts.yaml#/components/parameters/accountId'
+        - $ref: '../openapi.yaml#/components/parameters/accountId'
       responses:
         200:
           description: The details of the desired Account
@@ -51,7 +51,7 @@ paths:
       operationId: deprecatedAccountUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accounts.yaml#/components/parameters/accountId'
+        - $ref: '../openapi.yaml#/components/parameters/accountId'
       requestBody:
         description: An object containing the new properties for the Account to update
         required: true
@@ -86,7 +86,7 @@ paths:
       operationId: deprecatedAccountDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accounts.yaml#/components/parameters/accountId'
+        - $ref: '../openapi.yaml#/components/parameters/accountId'
       responses:
         204:
           description: The Account has been deleted
@@ -108,7 +108,7 @@ paths:
       summary: Get a single Account
       operationId: accountGet
       parameters:
-        - $ref: './accounts.yaml#/components/parameters/accountId'
+        - $ref: '../openapi.yaml#/components/parameters/accountId'
       responses:
         200:
           description: The details of the desired Account
@@ -132,7 +132,7 @@ paths:
       summary: Update a single Account
       operationId: accountUpdate
       parameters:
-        - $ref: './accounts.yaml#/components/parameters/accountId'
+        - $ref: '../openapi.yaml#/components/parameters/accountId'
       requestBody:
         description: An object containing the new properties for the Account to update
         required: true
@@ -171,7 +171,7 @@ paths:
       summary: Delete a single Account
       operationId: accountDelete
       parameters:
-        - $ref: './accounts.yaml#/components/parameters/accountId'
+        - $ref: '../openapi.yaml#/components/parameters/accountId'
       responses:
         204:
           description: The Account has been deleted

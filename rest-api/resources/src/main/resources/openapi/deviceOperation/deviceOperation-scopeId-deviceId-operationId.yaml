@@ -20,8 +20,8 @@ paths:
       operationId: deviceRegistryOperationGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: './deviceOperation.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
       responses:
         200:
           description: The details of the desired Registry Operation
@@ -46,8 +46,8 @@ paths:
       operationId: deviceRegistryOperationDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: './deviceOperation.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
       responses:
         204:
           description: The Registry Operation has been deleted

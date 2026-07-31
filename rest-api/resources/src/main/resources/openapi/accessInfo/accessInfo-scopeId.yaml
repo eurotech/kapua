@@ -20,7 +20,7 @@ paths:
       operationId: accessInfoList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './accessInfo.yaml#/components/parameters/userId'
+        - $ref: '../openapi.yaml#/components/parameters/userIdFilter'
         - $ref: '../openapi.yaml#/components/parameters/limit'
         - $ref: '../openapi.yaml#/components/parameters/offset'
       responses:

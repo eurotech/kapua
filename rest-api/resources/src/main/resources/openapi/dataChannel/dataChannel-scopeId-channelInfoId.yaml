@@ -20,7 +20,7 @@ paths:
       operationId: channelInfoGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './dataChannel.yaml#/components/parameters/channelInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/channelInfoId'
       responses:
         200:
           description: The desired ChannelInfo

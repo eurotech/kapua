@@ -20,7 +20,7 @@ paths:
       operationId: userGroupPermissionQuery
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './userGroup.yaml#/components/parameters/userGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/userGroupId'
       requestBody:
         $ref: '../openapi.yaml#/components/requestBodies/kapuaQuery'
       responses:

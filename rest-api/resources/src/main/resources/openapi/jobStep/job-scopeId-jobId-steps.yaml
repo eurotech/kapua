@@ -20,7 +20,7 @@ paths:
       operationId: jobStepList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - name: name
           in: query
           description: The job step name to filter results
@@ -53,7 +53,7 @@ paths:
       operationId: jobStepCreate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
       requestBody:
         description: An object containing the properties for the new Job Step to be created
         content:

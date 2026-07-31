@@ -20,7 +20,7 @@ paths:
       operationId: deviceEventCount
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
       requestBody:
         $ref: '../openapi.yaml#/components/requestBodies/kapuaQuery'
       responses:

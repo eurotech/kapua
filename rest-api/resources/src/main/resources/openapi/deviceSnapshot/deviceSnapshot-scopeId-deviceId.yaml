@@ -20,8 +20,8 @@ paths:
       operationId: deviceSnapshotList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       responses:
         200:
           description: The list of Snapshots available on a single Device

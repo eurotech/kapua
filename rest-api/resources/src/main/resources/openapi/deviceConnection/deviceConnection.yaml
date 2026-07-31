@@ -14,32 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    connectionId:
-      name: connectionId
-      in: path
-      description: The ID of the Connection on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    connectionStatus:
-      name: status
-      in: query
-      description: The connection status to filter results
-      schema:
-        $ref: './deviceConnection.yaml#/components/schemas/connectionStatus'
-    clientIp:
-      name: clientIp
-      in: query
-      description: The client ip to filter results
-      schema:
-        type: string
-    protocol:
-      name: protocol
-      in: query
-      description: The connection protocol to filter results
-      schema:
-        type: string
   schemas:
     connection:
       allOf:

@@ -20,8 +20,8 @@ paths:
       operationId: jobTriggerFiredQuery
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
-        - $ref: './jobTriggerFired.yaml#/components/parameters/triggerId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/triggerId'
       requestBody:
         $ref: '../openapi.yaml#/components/requestBodies/kapuaQuery'
       responses:

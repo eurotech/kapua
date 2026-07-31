@@ -14,21 +14,6 @@ info:
 paths: { }
 
 components:
-  parameters:
-    targetId:
-      name: targetId
-      in: path
-      description: The entity ID of the on which perform the operations
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    jobTargetStatus:
-      name: status
-      in: query
-      description: the status of the job target
-      schema:
-        $ref: '#/components/schemas/jobTargetStatus'
-      required: false
   schemas:
     jobTargetCreator:
       allOf:

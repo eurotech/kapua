@@ -20,9 +20,9 @@ paths:
       operationId: deviceBundleStop
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: './deviceBundle.yaml#/components/parameters/bundleId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/bundleId'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       responses:
         204:
           description: The Bundle has been successfully stopped

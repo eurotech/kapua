@@ -20,7 +20,7 @@ paths:
       operationId: dataMessageGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './dataMessage.yaml#/components/parameters/datastoreMessageId'
+        - $ref: '../openapi.yaml#/components/parameters/datastoreMessageId'
       responses:
         200:
           description: The desired DataMessage

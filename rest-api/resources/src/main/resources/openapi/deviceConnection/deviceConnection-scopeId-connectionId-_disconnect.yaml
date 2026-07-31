@@ -20,7 +20,7 @@ paths:
       operationId: connectionDisconnect
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceConnection.yaml#/components/parameters/connectionId'
+        - $ref: '../openapi.yaml#/components/parameters/connectionId'
       responses:
         204:
           description: The disconnection request was sent to the broker

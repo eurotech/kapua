@@ -20,7 +20,7 @@ paths:
       operationId: rolePermissionQuery
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './role.yaml#/components/parameters/roleId'
+        - $ref: '../openapi.yaml#/components/parameters/roleId'
       requestBody:
         $ref: '../openapi.yaml#/components/requestBodies/kapuaQuery'
       responses:

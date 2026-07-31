@@ -30,9 +30,9 @@ paths:
           description: The Tag id to filter results
           schema:
             $ref: '../openapi.yaml#/components/schemas/kapuaId'
-        - $ref: './device.yaml#/components/parameters/clientId'
-        - $ref: '../deviceConnection/deviceConnection.yaml#/components/parameters/connectionStatus'
-        - $ref: './device.yaml#/components/parameters/fetchAttributes'
+        - $ref: '../openapi.yaml#/components/parameters/clientId'
+        - $ref: '../openapi.yaml#/components/parameters/connectionStatus'
+        - $ref: '../openapi.yaml#/components/parameters/fetchAttributes'
         - $ref: '../openapi.yaml#/components/parameters/askTotalCount'
         - $ref: '../openapi.yaml#/components/parameters/sortParam'
         - name: sortDir

@@ -20,7 +20,7 @@ paths:
       operationId: connectionOptionGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceConnection.yaml#/components/parameters/connectionId'
+        - $ref: '../openapi.yaml#/components/parameters/connectionId'
       responses:
         200:
           description: The Options of the desired Connection
@@ -45,7 +45,7 @@ paths:
       operationId: connectionOptionUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceConnection.yaml#/components/parameters/connectionId'
+        - $ref: '../openapi.yaml#/components/parameters/connectionId'
       requestBody:
         content:
           application/json:

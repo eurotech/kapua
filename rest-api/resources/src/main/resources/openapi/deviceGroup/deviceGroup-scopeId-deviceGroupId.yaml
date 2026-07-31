@@ -20,7 +20,7 @@ paths:
       operationId: deviceGroupGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceGroup.yaml#/components/parameters/deviceGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceGroupId'
       responses:
         200:
           description: The details of the desired Device Group
@@ -45,7 +45,7 @@ paths:
       operationId: deviceGroupUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceGroup.yaml#/components/parameters/deviceGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceGroupId'
       requestBody:
         description: An object containing the new properties for the Device Group to update
         content:
@@ -82,7 +82,7 @@ paths:
       operationId: deviceGroupDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './deviceGroup.yaml#/components/parameters/deviceGroupId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceGroupId'
       responses:
         204:
           description: The Device Group has been deleted

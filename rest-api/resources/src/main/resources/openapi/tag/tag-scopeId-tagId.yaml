@@ -20,7 +20,7 @@ paths:
       operationId: tagGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './tag.yaml#/components/parameters/tagId'
+        - $ref: '../openapi.yaml#/components/parameters/tagId'
       responses:
         200:
           description: The details of the desired Tag
@@ -45,7 +45,7 @@ paths:
       operationId: tagUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './tag.yaml#/components/parameters/tagId'
+        - $ref: '../openapi.yaml#/components/parameters/tagId'
       requestBody:
         description: An object containing the new properties for the Tag to update
         content:
@@ -92,7 +92,7 @@ paths:
       operationId: tagDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './tag.yaml#/components/parameters/tagId'
+        - $ref: '../openapi.yaml#/components/parameters/tagId'
       responses:
         204:
           description: The Tag has been deleted

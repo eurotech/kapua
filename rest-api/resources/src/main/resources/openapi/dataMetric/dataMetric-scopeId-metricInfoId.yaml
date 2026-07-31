@@ -20,7 +20,7 @@ paths:
       operationId: metricInfoGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './dataMetric.yaml#/components/parameters/metricInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/metricInfoId'
       responses:
         200:
           description: The desired MetricInfo

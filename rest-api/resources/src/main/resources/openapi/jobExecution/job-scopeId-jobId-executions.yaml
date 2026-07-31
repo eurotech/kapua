@@ -20,7 +20,7 @@ paths:
       operationId: jobExecutionList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../job/job.yaml#/components/parameters/jobId'
+        - $ref: '../openapi.yaml#/components/parameters/jobId'
         - description: The start date to filter the results.
           name: startDate
           in: query

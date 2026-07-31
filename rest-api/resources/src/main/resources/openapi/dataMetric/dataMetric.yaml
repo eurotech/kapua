@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    metricInfoId:
-      name: metricInfoId
-      in: path
-      description: The ID of the MetricInfo on which to perform the operation
-      schema:
-        type: string
-      required: true
   schemas:
     metricInfo:
       type: object

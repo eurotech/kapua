@@ -20,7 +20,7 @@ paths:
       operationId: roleListUsers
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './role.yaml#/components/parameters/roleId'
+        - $ref: '../openapi.yaml#/components/parameters/roleId'
         - $ref: '../openapi.yaml#/components/parameters/sortParam'
         - $ref: '../openapi.yaml#/components/parameters/sortDir'
         - $ref: '../openapi.yaml#/components/parameters/limit'

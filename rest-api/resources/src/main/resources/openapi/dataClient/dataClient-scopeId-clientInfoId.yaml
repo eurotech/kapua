@@ -20,7 +20,7 @@ paths:
       operationId: clientInfoGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './dataClient.yaml#/components/parameters/clientInfoId'
+        - $ref: '../openapi.yaml#/components/parameters/clientInfoId'
       responses:
         200:
           description: The desired ClientInfo

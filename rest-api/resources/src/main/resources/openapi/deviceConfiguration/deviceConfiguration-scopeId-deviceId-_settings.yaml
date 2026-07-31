@@ -20,7 +20,7 @@ paths:
       operationId: getDeviceConfigurationsStoreSettings
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
       responses:
         200:
           description: The Device Management Settings retrieved
@@ -45,7 +45,7 @@ paths:
       operationId: putDeviceConfigurationsStoreSettings
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
       requestBody:
         description: The Device Configurations Store Settings for this Device
         content:

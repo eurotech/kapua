@@ -20,7 +20,7 @@ paths:
       operationId: groupGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './group.yaml#/components/parameters/groupId'
+        - $ref: '../openapi.yaml#/components/parameters/groupId'
       responses:
         200:
           description: The details of the desired Group
@@ -45,7 +45,7 @@ paths:
       operationId: groupUpdate
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './group.yaml#/components/parameters/groupId'
+        - $ref: '../openapi.yaml#/components/parameters/groupId'
       requestBody:
         description: An object containing the new properties for the Group to update
         content:
@@ -82,7 +82,7 @@ paths:
       operationId: groupDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: './group.yaml#/components/parameters/groupId'
+        - $ref: '../openapi.yaml#/components/parameters/groupId'
       responses:
         204:
           description: The Group has been deleted

@@ -20,9 +20,9 @@ paths:
       operationId: deviceRegistryNotificationGet
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceOperation/deviceOperation.yaml#/components/parameters/operationId'
-        - $ref: './deviceNotification.yaml#/components/parameters/notificationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/notificationId'
       responses:
         200:
           description: The details of the desired Registry Notification
@@ -47,9 +47,9 @@ paths:
       operationId: deviceRegistryNotificationDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceOperation/deviceOperation.yaml#/components/parameters/operationId'
-        - $ref: './deviceNotification.yaml#/components/parameters/notificationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/notificationId'
       responses:
         204:
           description: The Registry Notification has been deleted

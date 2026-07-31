@@ -14,14 +14,6 @@ info:
 paths: { }
 
 components:
-  parameters:
-    jobStepDefinitionId:
-      name: jobStepDefinitionId
-      in: path
-      description: The ID of the Job Step Definition on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
   schemas:
     jobStepDefinitionProperty:
       type: object

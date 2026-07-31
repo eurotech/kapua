@@ -14,34 +14,6 @@ info:
 paths: { }
 
 components:
-  parameters:
-    deviceId:
-      name: deviceId
-      in: path
-      description: The ID of the Device on which to perform the operation
-      schema:
-        $ref: '../openapi.yaml#/components/schemas/kapuaId'
-      required: true
-    timeout:
-      name: timeout
-      in: query
-      description: The timeout for the request in milliseconds
-      schema:
-        type: integer
-        default: 30000
-    fetchAttributes:
-      name: fetchAttributes
-      in: query
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/fetchAttribute'
-    clientId:
-      name: clientId
-      in: query
-      description: The client id to filter results
-      schema:
-        type: string
   schemas:
     device:
       allOf:

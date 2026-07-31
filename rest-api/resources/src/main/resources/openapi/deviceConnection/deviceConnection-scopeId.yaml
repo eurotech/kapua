@@ -20,10 +20,10 @@ paths:
       operationId: connectionList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/clientId'
-        - $ref: './deviceConnection.yaml#/components/parameters/clientIp'
-        - $ref: './deviceConnection.yaml#/components/parameters/protocol'
-        - $ref: './deviceConnection.yaml#/components/parameters/connectionStatus'
+        - $ref: '../openapi.yaml#/components/parameters/clientId'
+        - $ref: '../openapi.yaml#/components/parameters/clientIp'
+        - $ref: '../openapi.yaml#/components/parameters/protocol'
+        - $ref: '../openapi.yaml#/components/parameters/connectionStatus'
         - $ref: '../openapi.yaml#/components/parameters/limit'
         - $ref: '../openapi.yaml#/components/parameters/offset'
       responses:

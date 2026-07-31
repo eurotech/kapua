@@ -20,8 +20,8 @@ paths:
       operationId: deviceRegistryNotificationList
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../deviceOperation/deviceOperation.yaml#/components/parameters/operationId'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/operationId'
         - name: resource
           in: query
           description: The resource of the DeviceEvent in which to search results

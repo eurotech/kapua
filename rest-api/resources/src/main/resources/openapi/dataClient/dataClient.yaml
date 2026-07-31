@@ -14,14 +14,6 @@ info:
 paths: {}
 
 components:
-  parameters:
-    clientInfoId:
-      name: clientInfoId
-      in: path
-      description: The ID of the ClientInfo on which to perform the operation
-      schema:
-        type: string
-      required: true
   schemas:
     clientInfo:
       type: object
