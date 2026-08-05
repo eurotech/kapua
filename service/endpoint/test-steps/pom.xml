@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.eclipse.kapua</groupId>
         <artifactId>kapua-endpoint</artifactId>
-        <version>1.6.15-SNAPSHOT</version>
+        <version>1.6.15</version>
     </parent>
 
     <artifactId>kapua-endpoint-test-steps</artifactId>

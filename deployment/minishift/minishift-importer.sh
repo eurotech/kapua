@@ -29,7 +29,7 @@
 
 ERROR=0
 DOCKER_ACCOUNT=${DOCKER_ACCOUNT:=eclipsekapua}
-IMAGE_VERSION=${IMAGE_VERSION:=1.6.15-SNAPSHOT}
+IMAGE_VERSION=${IMAGE_VERSION:=1.6.15}
 SERVICES=("console" "api" "sql" "broker" "events-broker")
 TMP_DIR="/tmp/kapua-containers-$(date +%s)"
 
