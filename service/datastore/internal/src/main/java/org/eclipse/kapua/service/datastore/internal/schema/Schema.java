@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 /**
  * Datastore schema creation/update
@@ -48,6 +49,11 @@ import java.util.Map.Entry;
 public class Schema {
 
     private static final Logger LOG = LoggerFactory.getLogger(Schema.class);
+
+    // If new pre-defined mappings are added in {@link MessageSchema}, update the following value
+    // consistently. Refer to Elasticsearch documentation to find how many mappings need to be
+    // allocated for the new fields based upon their type
+    private static final int PREDEFINED_FIELD_MAPPINGS_COUNT = 23;
 
     /**
      * Synchronize metadata
@@ -251,13 +257,22 @@ public class Schema {
         String idxRefreshInterval = String.format("%ss", DatastoreSettings.getInstance().getLong(DatastoreSettingsKey.INDEX_REFRESH_INTERVAL));
         Integer idxShardNumber = DatastoreSettings.getInstance().getInt(DatastoreSettingsKey.INDEX_SHARD_NUMBER, 1);
         Integer idxReplicaNumber = DatastoreSettings.getInstance().getInt(DatastoreSettingsKey.INDEX_REPLICA_NUMBER, 0);
-
+        Optional<Integer> maxIndexedMetrics = DatastoreSettings.getInstance().getInteger(DatastoreSettingsKey.CONFIG_MESSAGES_INDEX_MAX_INDEXED_METRICS);
+        if (maxIndexedMetrics.isPresent() && maxIndexedMetrics.get() <= 0) {
+            maxIndexedMetrics = Optional.of(0);
+        }
         ObjectNode rootNode = MappingUtils.newObjectNode();
         ObjectNode settingsNode = MappingUtils.newObjectNode();
         ObjectNode refreshIntervalNode = MappingUtils.newObjectNode(new KeyValueEntry[]{
                 new KeyValueEntry(SchemaKeys.KEY_REFRESH_INTERVAL, idxRefreshInterval),
                 new KeyValueEntry(SchemaKeys.KEY_SHARD_NUMBER, idxShardNumber),
                 new KeyValueEntry(SchemaKeys.KEY_REPLICA_NUMBER, idxReplicaNumber)});
+        if (maxIndexedMetrics.isPresent()) {
+            // PREDEFINED_FIELD_MAPPINGS mappings are allocated to predefined indexed fields (e.g. the topic), then each metric takes
+            // two other mappings. One for the metric itself and one more for the type (e.g. {"temp": {"type":"dbl"}})
+            int totalRequiredMappings = PREDEFINED_FIELD_MAPPINGS_COUNT + maxIndexedMetrics.get()*2;
+            MappingUtils.appendField(refreshIntervalNode, SchemaKeys.KEY_MAPPING_TOTAL_FIELDS_LIMIT, totalRequiredMappings);
+        }
         settingsNode.set(SchemaKeys.KEY_INDEX, refreshIntervalNode);
         rootNode.set(SchemaKeys.KEY_SETTINGS, settingsNode);
         LOG.info("Creating index for '{}' - refresh: '{}' - shards: '{}' replicas: '{}': ", idxName, idxRefreshInterval, idxShardNumber, idxReplicaNumber);
