@@ -18,7 +18,7 @@
 
     <groupId>org.eclipse.kapua</groupId>
     <artifactId>kapua</artifactId>
-    <version>1.6.15</version>
+    <version>1.6.16-SNAPSHOT</version>
 
     <name>kapua</name>
     <packaging>pom</packaging>

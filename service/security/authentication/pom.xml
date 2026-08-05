@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.eclipse.kapua</groupId>
         <artifactId>kapua-security</artifactId>
-        <version>1.6.15</version>
+        <version>1.6.16-SNAPSHOT</version>
     </parent>
 
     <artifactId>kapua-security-authentication</artifactId>

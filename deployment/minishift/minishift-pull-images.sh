@@ -17,7 +17,7 @@
 #
 
 DOCKER_ACCOUNT=${DOCKER_ACCOUNT:=eclipsekapua}
-IMAGE_VERSION=${IMAGE_VERSION:=1.6.15}
+IMAGE_VERSION=${IMAGE_VERSION:=1.6.16-SNAPSHOT}
 SERVICES=("console" "api" "sql" "broker" "events-broker")
 
 echo "Pulling Kapua images..."

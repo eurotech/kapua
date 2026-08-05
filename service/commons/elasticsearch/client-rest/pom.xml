@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.eclipse.kapua</groupId>
         <artifactId>kapua-service-elasticsearch</artifactId>
-        <version>1.6.15</version>
+        <version>1.6.16-SNAPSHOT</version>
     </parent>
 
     <artifactId>kapua-service-elasticsearch-client-rest</artifactId>
