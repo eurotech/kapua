@@ -116,7 +116,7 @@ public enum DatastoreSettingsKey implements SettingKey {
      */
     MAX_LIMIT_VALUE("datastore.query.limit.max"),
     /**
-     * Elasticsearch max number of field mappings for the message index
+     * Elasticsearch max number of indexed metrics for the message index
      */
     CONFIG_MESSAGES_INDEX_MAX_INDEXED_METRICS("datastore.index.message.maxIndexedMetrics");
 
