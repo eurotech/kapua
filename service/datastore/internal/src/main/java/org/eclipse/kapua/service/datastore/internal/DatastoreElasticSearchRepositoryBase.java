@@ -79,7 +79,6 @@ public abstract class DatastoreElasticSearchRepositoryBase<
                 new KeyValueEntry(SchemaKeys.KEY_REPLICA_NUMBER, idxReplicaNumber)});
         settingsNode.set(SchemaKeys.KEY_INDEX, refreshIntervalNode);
         rootNode.set(SchemaKeys.KEY_SETTINGS, settingsNode);
-        logger.info("Creating index for '{}' - refresh: '{}' - shards: '{}' replicas: '{}': ", idxName, idxRefreshInterval, idxShardNumber, idxReplicaNumber);
         return rootNode;
     }
 
