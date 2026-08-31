@@ -60,6 +60,9 @@ public abstract class ElasticsearchRepository<
 
     protected abstract StorableId idExtractor(T storable);
 
+    private static final String INDEX_EXPR_SEPARATOR = ",";
+    private static final String INDEX_EXPR_WILDCARD = "*";
+
     protected ElasticsearchRepository(
             ElasticsearchClientProvider elasticsearchClientProviderInstance,
             Class<T> clazz,
@@ -111,7 +114,12 @@ public abstract class ElasticsearchRepository<
     private void synchIndex(String indexName) {
         if (!indexUpserted.containsKey(indexName)) {
             synchronized (clazz) {
-                doUpsertIndex(indexName);
+                // Upsert index only if index name is fully defined
+                if (isFullyDefinedIndex(indexName)) {
+                    doUpsertIndex(indexName);
+                }
+                // Add to cache even the non fully defined so that the next time
+                // the check can be skipped to save processing time.
                 indexUpserted.put(indexName, true);
             }
         }
@@ -237,10 +245,16 @@ public abstract class ElasticsearchRepository<
             // Check existence of the kapua internal indexes
             IndexResponse indexExistsResponse = elasticsearchClientWrapper.isIndexExists(new IndexRequest(indexName));
             if (!indexExistsResponse.isIndexExists()) {
-                elasticsearchClientWrapper.createIndex(indexName, getMappingSchema(indexName));
-                logger.info("Index created: {}", indexExistsResponse);
-                elasticsearchClientWrapper.putMapping(indexName, getIndexSchema());
+                ObjectNode settings = getMappingSchema(indexName);
+                elasticsearchClientWrapper.createIndex(indexName, settings);
+                logger.info("Index created with name: {}, index exists check: {}", indexName, indexExistsResponse);
+                logger.debug("Index created with name: {}, index settings: {}", indexName, settings);
             }
+            // Update base index mappings regardless the index existed or not
+            JsonNode mappings = getIndexSchema();
+            elasticsearchClientWrapper.putMapping(indexName, mappings);
+            logger.info("Index mappings updated for index: {}, index exists check: {}", indexName, indexExistsResponse);
+            logger.debug("Index mappings updated for index: {}, index mappings: {}", indexName, mappings);
         } catch (ClientException | MappingException e) {
             throw new RuntimeException(e);
         }
@@ -285,4 +299,14 @@ public abstract class ElasticsearchRepository<
         }
     }
 
+    /*
+     * Returns false if indexExpression is an index pattern (e.g. 'idx-name-*' or 'idx-name-*, -idx-name-2026-01').
+     * Returns true if indexExpression is a single fully defined index name.
+     */
+    private boolean isFullyDefinedIndex(String indexExpression) {
+        if (indexExpression.contains(INDEX_EXPR_SEPARATOR) || indexExpression.contains(INDEX_EXPR_WILDCARD)) {
+            return false;
+        }
+        return true;
+    }
 }
