@@ -268,6 +268,27 @@ public class ConfigurationPrinter {
         return this;
     }
 
+
+    /**
+     * Adds a {@link ConfigurationParameter}.
+     * <p>
+     * It will be printed as:
+     * <pre>
+     * |\t{name}: {stringFormat+arguments}
+     * </pre>
+     * Placeholder in format follow the {@link String#format(String, Object...)} rules.
+     *
+     * @param name The name of the {@link ConfigurationParameter}
+     * @param format The {@link String} format of the value
+     * @param arguments The values to be used with the given format
+     * @return Itself, to chain method invocation.
+     * @since 2.1.0
+     */
+    public ConfigurationPrinter addParameter(@NotNull String name, @NotNull String format, @NotNull Object... arguments) {
+        addParameter(name, String.format(format, arguments));
+        return this;
+    }
+
     /**
      * Shortcut method for:
      * <pre>
