@@ -243,6 +243,27 @@ public class ConfigurationPrinter {
         return this;
     }
 
+
+    /**
+     * Adds a {@link ConfigurationParameter}.
+     * <p>
+     * It will be printed as:
+     * <pre>
+     * |\t{name}: {stringFormat+arguments}
+     * </pre>
+     * Placeholder in format follow the {@link String#format(String, Object...)} rules.
+     *
+     * @param name The name of the {@link ConfigurationParameter}
+     * @param format The {@link String} format of the value
+     * @param arguments The values to be used with the given format
+     * @return Itself, to chain method invocation.
+     * @since 2.1.0
+     */
+    public ConfigurationPrinter addParameter(@NotNull String name, @NotNull String format, @NotNull Object... arguments) {
+        addParameter(name, String.format(format, arguments));
+        return this;
+    }
+
     /**
      * Shortcut method for:
      * <pre>
@@ -325,7 +346,7 @@ public class ConfigurationPrinter {
 
         if (getLogLevel() == null) {
             LOG.warn("Log level was not provided! Defaulting to LogLevel.INFO");
-            LOG.warn("To fix this please use .withLogLevel(org.eclipse.kapua.commons.util.log.ConfigurationPrinter.LogLevel) providing the desired level!");
+            LOG.warn("To fix this please use .withLogLevel(ConfigurationPrinter.LogLevel) providing the desired level!");
             withLogLevel(LogLevel.INFO);
         }
 
@@ -342,7 +363,7 @@ public class ConfigurationPrinter {
 
         //
         // End Line - Same length of Title
-        String footerLog = new String(new char[alignedTitleFormat.length()]).replace('\0', '=');
+        String footerLog = new String(new char[getTitle().length()]).replace('\0', '=').concat("========================================");
         printLogLeveled(footerLog);
     }
 
