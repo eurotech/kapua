@@ -370,18 +370,24 @@ public class ConfigurationPrinter {
 
         if (getLogLevel() == null) {
             LOG.warn("Log level was not provided! Defaulting to LogLevel.INFO");
-            LOG.warn("To fix this please use .withLogLevel(org.eclipse.kapua.commons.util.log.ConfigurationPrinter.LogLevel) providing the desired level!");
+            LOG.warn("To fix this please use .withLogLevel(ConfigurationPrinter.LogLevel) providing the desired level!");
             withLogLevel(LogLevel.INFO);
         }
+
+        //
         // Title
         String alignedTitleFormat = buildAlignedTitleFormat();
         printLogLeveled(alignedTitleFormat, getTitle());
+
+        //
         // Parameters
         for (Configuration configuration : getConfigurations()) {
             printLogLeveled("|  {}", configuration);
         }
+
+        //
         // End Line - Same length of Title
-        String footerLog = new String(new char[alignedTitleFormat.length()]).replace('\0', '=').concat("========================================");
+        String footerLog = new String(new char[getTitle().length()]).replace('\0', '=').concat("========================================");
         printLogLeveled(footerLog);
     }
 
