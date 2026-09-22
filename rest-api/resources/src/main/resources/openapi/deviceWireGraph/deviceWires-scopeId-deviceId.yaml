@@ -20,8 +20,8 @@ paths:
       operationId: deviceWireGraphRead
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       responses:
         200:
           description: The wire graph configuration on a single Device
@@ -49,8 +49,8 @@ paths:
       operationId: deviceWireGraphPut
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       requestBody:
         content:
           application/json:
@@ -83,8 +83,8 @@ paths:
       operationId: deviceWireGraphDelete
       parameters:
         - $ref: '../openapi.yaml#/components/parameters/scopeId'
-        - $ref: '../device/device.yaml#/components/parameters/deviceId'
-        - $ref: '../device/device.yaml#/components/parameters/timeout'
+        - $ref: '../openapi.yaml#/components/parameters/deviceId'
+        - $ref: '../openapi.yaml#/components/parameters/timeout'
       responses:
         204:
           description: The Wire Graph Configuration has been deleted on a single Device
