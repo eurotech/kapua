@@ -20,6 +20,7 @@ import org.eclipse.kapua.app.console.module.api.setting.ConsoleSettingKeys;
 import org.eclipse.kapua.app.console.module.api.shared.util.GwtKapuaCommonsModelConverter;
 import org.eclipse.kapua.app.console.module.api.shared.util.KapuaGwtCommonsModelConverter;
 import org.eclipse.kapua.locator.KapuaLocator;
+import org.eclipse.kapua.model.type.ObjectTypeConverter;
 import org.eclipse.kapua.service.datastore.MessageStoreFactory;
 import org.eclipse.kapua.service.datastore.MessageStoreService;
 import org.eclipse.kapua.service.datastore.internal.mediator.MessageField;
@@ -32,6 +33,7 @@ import org.eclipse.kapua.service.datastore.model.query.predicate.DatastorePredic
 import org.eclipse.kapua.service.storable.model.query.SortDirection;
 import org.eclipse.kapua.service.storable.model.query.SortField;
 import org.eclipse.kapua.service.storable.model.query.predicate.AndPredicate;
+import org.eclipse.kapua.service.storable.model.query.predicate.OrPredicate;
 import org.eclipse.kapua.service.storable.model.query.predicate.RangePredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +88,7 @@ public class DataExporterServlet extends HttpServlet {
             String device = request.getParameter("device");
             String asset = request.getParameter("asset");
             String[] headers = request.getParameterValues("headers");
+            String[] headerTypes = request.getParameterValues("headerTypes");
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
             String sortField = "timestamp";
@@ -118,6 +121,10 @@ public class DataExporterServlet extends HttpServlet {
                 throw new IllegalArgumentException("headers");
             }
 
+            if (headerTypes == null || headerTypes.length != headers.length) {
+                throw new IllegalArgumentException("headerTypes");
+            }
+
             DataExporter dataExporter;
             if ("csv".equals(format)) {
                 dataExporter = new DataExporterCsv(response, topicOrDevice);
@@ -130,6 +137,17 @@ public class DataExporterServlet extends HttpServlet {
             Date end = new Date(Long.valueOf(endDate));
             RangePredicate datePredicate = DATASTORE_PREDICATE_FACTORY.newRangePredicate(MessageField.TIMESTAMP, start, end);
             predicate.getPredicates().add(datePredicate);
+
+            // Only export messages containing at least one of the selected metrics
+            OrPredicate metricsPredicate = DATASTORE_PREDICATE_FACTORY.newOrPredicate();
+            for (int i = 0; i < headers.length; i++) {
+                try {
+                    metricsPredicate.getPredicates().add(DATASTORE_PREDICATE_FACTORY.newMetricExistsPredicate(headers[i], (Class<? extends Comparable>) ObjectTypeConverter.fromString(headerTypes[i].toLowerCase())));
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalArgumentException("headerTypes");
+                }
+            }
+            predicate.getPredicates().add(metricsPredicate);
 
             if (sortField != null && sortDir != null) {
                 query.setSortFields(Collections.singletonList(SortField.of(sortField, SortDirection.valueOf(sortDir))));
