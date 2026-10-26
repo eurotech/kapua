@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2026, 2026 Eurotech and/or its affiliates and others
+
+    This program and the accompanying materials are made
+    available under the terms of the Eclipse Public License 2.0
+    which is available at https://www.eclipse.org/legal/epl-2.0/
+
+    SPDX-License-Identifier: EPL-2.0
+
+    Contributors:
+        Eurotech - initial API and implementation
+-->
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd"
+  logicalFilePath="KapuaDB/changelog-device-2.1.0.xml">
+
+    <changeSet id="device_connection-2.1.0-add_indexes" author="eurotech">
+
+        <createIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_created-on">
+            <column name="scope_id"/>
+            <column name="created_on"/>
+        </createIndex>
+
+        <createIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_modified-on">
+            <column name="scope_id"/>
+            <column name="modified_on"/>
+        </createIndex>
+
+        <createIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_client-id">
+            <column name="scope_id"/>
+            <column name="client_id"/>
+        </createIndex>
+
+        <createIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_status">
+            <column name="scope_id"/>
+            <column name="status"/>
+        </createIndex>
+
+        <createIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_user-id">
+            <column name="scope_id"/>
+            <column name="user_id"/>
+        </createIndex>
+
+        <rollback>
+            <dropIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_created-on"/>
+            <dropIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_modified-on"/>
+            <dropIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_client-id"/>
+            <dropIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_status"/>
+            <dropIndex tableName="dvc_device_connection" indexName="idx_device-connection_scope-id_user-id"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="device_connection-2.1.0-removed_unused_indexes" author="eurotech">
+        <dropIndex tableName="dvc_device_connection" indexName="idx_connection_client_id_status_id"/>
+        <dropIndex tableName="dvc_device_connection" indexName="idx_connection_status_id_client_id"/>
+    </changeSet>
+
+</databaseChangeLog>
