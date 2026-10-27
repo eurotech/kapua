@@ -344,7 +344,8 @@ public class ResultsTable extends LayoutContainer {
 
         if (selectedMetrics != null && !selectedMetrics.isEmpty()) {
             for (GwtHeader metric : selectedMetrics) {
-                sbUrl.append("&headers=").append(metric.getName());
+                sbUrl.append("&headers=").append(URL.encodeQueryString(metric.getName()));
+                sbUrl.append("&headerTypes=").append(URL.encodeQueryString(metric.getType()));
             }
         }
 
